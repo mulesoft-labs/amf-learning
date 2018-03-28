@@ -1,0 +1,4 @@
+PREFIX core: <http://www.w3.org/ns/hydra/core#>
+
+SELECT ?x
+WHERE { ?x  core:method  "get" }

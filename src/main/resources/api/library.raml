@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Library API
+version: v1.0
+baseUri: http://app.library.com/api
+protocols:
+  - SMTP
+documentation:
+ - title: Home
+   content: |
+     Welcome to the _Library API_ Documentation. The _Library API_
+     allows you to fetch all your books.
+/v1.0/books:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: string
