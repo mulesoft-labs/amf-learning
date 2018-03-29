@@ -1,9 +1,10 @@
 package org.mulesoft.amf.learning;
 
 
-import amf.Core;
+import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
+import amf.client.render.AmfGraphRenderer;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -19,13 +20,12 @@ import java.util.concurrent.CompletableFuture;
 public class Lesson06 {
     public static void main(String[] args) {
         try {
-            Core.init().get();
-            amf.plugins.document.Vocabularies.register();
+            AMF.init().get();
 
             URL dialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.raml");
             URL dataResource = ClassLoader.getSystemResource("examples/facebook.raml");
 
-            amf.plugins.document.Vocabularies.registerDialect(dialectResource.toExternalForm());
+            AMF.registerDialect(dialectResource.toExternalForm()).get();
 
             RamlParser parser = new RamlParser();
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
@@ -33,7 +33,7 @@ public class Lesson06 {
 
             System.out.println(document);
 
-            CompletableFuture<String> jsonLDFuture = Core.generator("AMF Graph", "application/ld+json").generateString(document);
+            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             String jsonLD = jsonLDFuture.get();
 
             System.out.println("********************");
