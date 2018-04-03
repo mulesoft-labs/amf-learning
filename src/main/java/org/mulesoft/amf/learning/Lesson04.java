@@ -1,6 +1,7 @@
 package org.mulesoft.amf.learning;
 
 import amf.Core;
+import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.model.document.Document;
 import amf.client.parse.RamlParser;
@@ -15,8 +16,7 @@ import java.util.concurrent.CompletableFuture;
 public class Lesson04 {
     public static void main(String[] args) {
         try {
-            Core.init().get();
-            amf.plugins.features.AMFValidation.register();
+            AMF.init().get();
 
             URL systemResource = ClassLoader.getSystemResource("api/library.raml");
             URL validationProfileResource = ClassLoader.getSystemResource("validations/validation_profile.raml");

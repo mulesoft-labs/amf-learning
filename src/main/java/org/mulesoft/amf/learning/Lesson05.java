@@ -1,9 +1,10 @@
 package org.mulesoft.amf.learning;
 
-import amf.Core;
+import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.model.document.Document;
 import amf.client.parse.RamlParser;
+import amf.client.render.AmfGraphRenderer;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -28,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 public class Lesson05 {
     public static void main(String[] args) {
         try {
-            Core.init().get();
+            AMF.init().get();
 
             URL systemResource = ClassLoader.getSystemResource("api/library.raml");
             InputStream sparqlInputStream = ClassLoader.getSystemResourceAsStream("queries/endpoints.sparql");
@@ -37,7 +38,7 @@ public class Lesson05 {
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(systemResource.toExternalForm());
             Document document = (Document) parseFileAsync.get();
 
-            CompletableFuture<String> jsonLDFuture = Core.generator("AMF Graph", "application/ld+json").generateString(document);
+            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             String jsonLD = jsonLDFuture.get();
             System.out.println(jsonLD);
 

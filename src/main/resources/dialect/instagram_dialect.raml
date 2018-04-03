@@ -1,0 +1,23 @@
+#%RAML 1.0 Dialect
+
+# Name of the dialect, this will define the header of the dialect documents
+dialect: Instagram Data
+version: 0.1
+
+# Vocabularies and externals can be referenced to use those terms in the dialect nodes
+uses:
+  learning: ../vocabularies/learning.raml
+
+documents:
+  root:
+    encodes: PersonNode
+
+nodeMappings:
+
+  PersonNode:
+    classTerm: learning.Person
+    mapping:
+      container:
+        propertyTerm: learning.name
+        range: string
+        mandatory: true

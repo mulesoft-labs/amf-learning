@@ -1,14 +1,15 @@
 package org.mulesoft.amf.learning;
 
-import java.net.URL;
-import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
-
-import amf.Core;
+import amf.client.AMF;
+import amf.client.model.document.BaseUnit;
 import amf.client.model.document.Document;
 import amf.client.model.domain.WebApi;
 import amf.client.parse.RamlParser;
-import amf.client.model.document.BaseUnit;
+import amf.client.render.Raml10Renderer;
+
+import java.net.URL;
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * AMF has a WebApi model which represents canonical model for APIs an allow us to modify it in a generic way
@@ -16,8 +17,7 @@ import amf.client.model.document.BaseUnit;
 public class Lesson03 {
     public static void main(String[] args) {
         try {
-            Core.init().get();
-            amf.plugins.document.WebApi.register();
+            AMF.init().get();
 
             URL systemResource = ClassLoader.getSystemResource("api/library.raml");
 
@@ -32,7 +32,7 @@ public class Lesson03 {
             domainElement.withDocumentationUrl("http://example.com/mutator.raml");
 
             System.out.println("********************");
-            CompletableFuture<String> ramlV2Future = Core.generator("RAML 1.0", "application/yaml").generateString(document);
+            CompletableFuture<String> ramlV2Future = new Raml10Renderer().generateString(document);
             System.out.println(ramlV2Future.get());
         } catch (Exception e) {
             e.printStackTrace();

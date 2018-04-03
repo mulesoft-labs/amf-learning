@@ -4,8 +4,13 @@ import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 import amf.Core;
+import amf.client.AMF;
 import amf.client.parse.RamlParser;
 import amf.client.model.document.BaseUnit;
+import amf.client.render.AmfGraphRenderer;
+import amf.client.render.Oas20Renderer;
+import amf.client.render.Raml08Renderer;
+import amf.client.render.Raml10Renderer;
 
 /*
  * After using AMF RAML parser you get a document which could be represented in different mediaType
@@ -13,7 +18,7 @@ import amf.client.model.document.BaseUnit;
 public class Lesson02 {
     public static void main(String[] args) {
         try {
-            Core.init().get();
+            AMF.init().get();
 
             URL systemResource = ClassLoader.getSystemResource("api/library.raml");
 
@@ -22,19 +27,19 @@ public class Lesson02 {
             BaseUnit document = parseFileAsync.get();
 
             System.out.println("********************");
-            CompletableFuture<String> ramlV1Future = Core.generator("RAML 0.8", "application/yaml").generateString(document);
+            CompletableFuture<String> ramlV1Future = new Raml08Renderer().generateString(document);
             System.out.println(ramlV1Future.get());
 
             System.out.println("********************");
-            CompletableFuture<String> ramlV2Future = Core.generator("RAML 1.0", "application/yaml").generateString(document);
+            CompletableFuture<String> ramlV2Future = new Raml10Renderer().generateString(document);
             System.out.println(ramlV2Future.get());
 
             System.out.println("********************");
-            CompletableFuture<String> oasFuture = Core.generator("OAS 2.0", "application/json").generateString(document);
+            CompletableFuture<String> oasFuture = new Oas20Renderer().generateString(document);
             System.out.println(oasFuture);
 
             System.out.println("********************");
-            CompletableFuture<String> jsonLDFuture = Core.generator("AMF Graph", "application/ld+json").generateString(document);
+            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             System.out.println(jsonLDFuture.get());
         } catch (Exception e) {
             e.printStackTrace();
