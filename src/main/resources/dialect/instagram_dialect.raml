@@ -8,16 +8,27 @@ version: 0.1
 uses:
   learning: ../vocabularies/learning.raml
 
+external:
+  linked-data-platform: http://www.w3.org/ns/ldp#
+
 documents:
   root:
-    encodes: PersonNode
+    encodes: ContainerNode
 
 nodeMappings:
+
+  ContainerNode:
+    classTerm: linked-data-platform.BasicContainer
+    mapping:
+      container:
+        propertyTerm: linked-data-platform.contains
+        range: PersonNode
+        mandatory: true
 
   PersonNode:
     classTerm: learning.Person
     mapping:
-      container.id:
+      id:
         propertyTerm: learning.name
         range: string
         mandatory: true
