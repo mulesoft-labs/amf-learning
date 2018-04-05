@@ -16,7 +16,10 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 
-
+/*
+ * We can create a custom dialect to map our input source to our canonical model, also using the dialect we can validate and do
+ * conversion back and forth.
+ */
 public class Lesson06 {
     public static void main(String[] args) {
         try {

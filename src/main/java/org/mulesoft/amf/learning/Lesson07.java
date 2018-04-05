@@ -4,55 +4,43 @@ package org.mulesoft.amf.learning;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
-import amf.client.render.AmfGraphRenderer;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.topbraid.spin.util.JenaUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 
-
+/*
+ * We can register multiples dialects
+ */
 public class Lesson07 {
     public static void main(String[] args) {
         try {
             AMF.init().get();
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/twitter_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/twitter.raml");
+            URL twitterDialectResource = ClassLoader.getSystemResource("dialect/twitter_dialect.raml");
+            URL facebookDialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.raml");
+            URL instagramDialectResource = ClassLoader.getSystemResource("dialect/instagram_dialect.raml");
 
-            AMF.registerDialect(dialectResource.toExternalForm()).get();
+            URL twitterDataResource = ClassLoader.getSystemResource("examples/twitter.raml");
+            URL facebookDataResource = ClassLoader.getSystemResource("examples/facebook.raml");
+            URL instagramDataResource = ClassLoader.getSystemResource("examples/instagram.raml");
+
+            AMF.registerDialect(twitterDialectResource.toExternalForm()).get();
+            AMF.registerDialect(facebookDialectResource.toExternalForm()).get();
+            AMF.registerDialect(instagramDialectResource.toExternalForm()).get();
 
             RamlParser parser = new RamlParser();
-            CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
-            BaseUnit document = parseFileAsync.get();
 
-            System.out.println(document);
+            CompletableFuture<BaseUnit> parseTwitterFileAsync = parser.parseFileAsync(twitterDataResource.toExternalForm());
+            CompletableFuture<BaseUnit> parseFacebookFileAsync = parser.parseFileAsync(facebookDataResource.toExternalForm());
+            CompletableFuture<BaseUnit> parseInstagramFileAsync = parser.parseFileAsync(instagramDataResource.toExternalForm());
 
-            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
-            String jsonLD = jsonLDFuture.get();
+            BaseUnit twitterDocument = parseTwitterFileAsync.get();
+            BaseUnit facebookDocument = parseFacebookFileAsync.get();
+            BaseUnit instagramDocument = parseInstagramFileAsync.get();
 
-            System.out.println("********************");
-            System.out.println(jsonLD);
-
-            Model model = JenaUtil.createMemoryModel();
-            InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
-            model.read(inputStream, document.location(), "JSON-LD");
-
-            System.out.println("********************");
-            StmtIterator it = model.listStatements();
-            while (it.hasNext()) {
-                Statement statement = it.next();
-
-                System.out.println(statement);
-            }
-
-            System.out.println("********************");
-            System.out.println(document);
+            System.out.println(twitterDocument);
+            System.out.println(facebookDocument);
+            System.out.println(instagramDocument);
         } catch (Exception e) {
             e.printStackTrace();
         }
