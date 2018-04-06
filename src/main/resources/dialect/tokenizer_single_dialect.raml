@@ -4,7 +4,7 @@ dialect: Tokenizer Deployment
 version: 0.1
 
 uses:
-  anypoint: ../vocabularies/anypoint_hierarchy.raml
+  anypoint: ../vocabularies/anypoint.raml
 
 documents:
   root:
@@ -27,7 +27,7 @@ nodeMappings:
           - CSMAssetNode
 
   VDPAssetNode:
-    classTerm: anypoint.VDPAsset
+    classTerm: anypoint.Asset
     mapping:
       name:
         propertyTerm: anypoint.asset_name
@@ -49,7 +49,7 @@ nodeMappings:
         range: string
 
   CSMAssetNode:
-    classTerm: anypoint.CSMAsset
+    classTerm: anypoint.Asset
     mapping:
       name:
         propertyTerm: anypoint.asset_name

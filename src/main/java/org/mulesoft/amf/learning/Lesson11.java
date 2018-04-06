@@ -30,14 +30,16 @@ import java.util.concurrent.CompletableFuture;
 /*
  * We can define hierarchy in our vocabulary and do queries using inferences in our data
  */
-public class Lesson10 {
+public class Lesson11 {
     public static void main(String[] args) {
         try {
             AMF.init().get();
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets_hierarchy.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+            URL vocabularyResource = ClassLoader.getSystemResource("vocabularies/anypoint_hierarchy.raml");
+
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.raml");
             URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
@@ -53,7 +55,17 @@ public class Lesson10 {
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 
-            Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(model);
+            CompletableFuture<BaseUnit> vocabularyParseFileAsync = parser.parseFileAsync(vocabularyResource.toExternalForm());
+            BaseUnit vocabularyDocument = vocabularyParseFileAsync.get();
+
+            CompletableFuture<String> vocabularyJsonLDFuture = new AmfGraphRenderer().generateString(vocabularyDocument);
+            String vocabularyJsonLD = vocabularyJsonLDFuture.get();
+
+            Model vocabularyModel = JenaUtil.createMemoryModel();
+            InputStream vocabularyInputStream = new ByteArrayInputStream(vocabularyJsonLD.getBytes(Charset.defaultCharset()));
+            vocabularyModel.read(vocabularyInputStream, document.location(), "JSON-LD");
+
+            Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(vocabularyModel); //TBox
             InfModel infModel = ModelFactory.createInfModel(reasoner, model);
 
             System.out.println("******************** Model ********************");

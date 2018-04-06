@@ -33,7 +33,7 @@ public class Lesson09 {
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
             URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
