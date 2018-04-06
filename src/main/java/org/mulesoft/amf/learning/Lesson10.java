@@ -12,9 +12,13 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.ReasonerRegistry;
 import org.topbraid.spin.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
@@ -24,17 +28,17 @@ import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 
 /*
- * Simple example using anypoint vocabulary
+ * We can define hierarchy in our vocabulary and do queries using inferences in our data
  */
-public class Lesson08 {
+public class Lesson10 {
     public static void main(String[] args) {
         try {
             AMF.init().get();
 
-            InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets.sparql");
+            InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets_hierarchy.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.raml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
@@ -49,19 +53,33 @@ public class Lesson08 {
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 
-            // Make a SPARQL query
-            String queryAsString = IOUtils.toString(assetsInputStream, Charset.defaultCharset());
-            Query query = QueryFactory.create(queryAsString);
+            Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(model);
+            InfModel infModel = ModelFactory.createInfModel(reasoner, model);
 
-            System.out.println("********************");
-            StmtIterator it = model.listStatements();
-            while (it.hasNext()) {
-                Statement statement = it.next();
+            System.out.println("******************** Model ********************");
+            StmtIterator modelIt = model.listStatements();
+            while (modelIt.hasNext()) {
+                Statement statement = modelIt.next();
 
                 System.out.println(statement);
             }
 
             System.out.println("********************");
+
+            System.out.println("******************** Inf Model ********************");
+            StmtIterator infModelIt = infModel.listStatements();
+            while (infModelIt.hasNext()) {
+                Statement statement = infModelIt.next();
+
+                System.out.println(statement);
+            }
+
+            System.out.println("********************");
+
+            // Make a SPARQL query
+            String queryAsString = IOUtils.toString(assetsInputStream, Charset.defaultCharset());
+            Query query = QueryFactory.create(queryAsString);
+
             try (QueryExecution execution = QueryExecutionFactory.create(query, model)) {
                 ResultSet rs = execution.execSelect();
 

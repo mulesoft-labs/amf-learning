@@ -24,17 +24,17 @@ import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 
 /*
- * Simple example using anypoint vocabulary
+ * We can define hierarchy in our vocabulary
  */
-public class Lesson08 {
+public class Lesson09 {
     public static void main(String[] args) {
         try {
             AMF.init().get();
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.raml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
