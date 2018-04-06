@@ -36,7 +36,7 @@ public class Lesson02 {
 
             System.out.println("********************");
             CompletableFuture<String> oasFuture = new Oas20Renderer().generateString(document);
-            System.out.println(oasFuture);
+            System.out.println(oasFuture.get());
 
             System.out.println("********************");
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
