@@ -1,0 +1,11 @@
+PREFIX anypoint: <http://mulesoft.com/vocabularies/anypoint#>
+
+SELECT DISTINCT ?asset_name ?group ?artifact ?version ?packaging ?classifier {
+  ?asset a anypoint:Asset ;
+    anypoint:asset_name ?asset_name ;
+    anypoint:group ?group ;
+    anypoint:artifact ?artifact ;
+    anypoint:version ?version ;
+    anypoint:packaging ?packaging ;
+    anypoint:classifier ?classifier
+} ORDER BY DESC(?asset)
