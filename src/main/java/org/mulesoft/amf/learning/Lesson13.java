@@ -5,6 +5,7 @@ import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
 import amf.client.render.AmfGraphRenderer;
+import amf.plugins.document.Vocabularies;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 /*
@@ -54,10 +56,14 @@ public class Lesson13 {
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/complex_assets_hierarchy.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+
             URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
-            AMF.registerDialect(dialectResource.toExternalForm()).get();
+            InputStream dialectInputStream = ClassLoader.getSystemResourceAsStream("dialect/tokenizer_single_dialect.raml");
+            Vocabularies.registerDialect("http://deployer.org/dialects/Tokenizer", IOUtils.toString(dialectInputStream, StandardCharsets.UTF_8)).get();
+
+            // URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+            // AMF.registerDialect(dialectResource.toExternalForm()).get();
 
             RamlParser parser = new RamlParser();
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
