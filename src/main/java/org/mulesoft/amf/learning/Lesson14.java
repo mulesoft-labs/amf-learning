@@ -2,9 +2,13 @@ package org.mulesoft.amf.learning;
 
 
 import amf.client.AMF;
+import amf.client.environment.DefaultEnvironment;
+import amf.client.environment.Environment;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
+import amf.client.remote.Content;
 import amf.client.render.AmfGraphRenderer;
+import amf.client.resource.ResourceLoader;
 import amf.plugins.document.Vocabularies;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
@@ -20,10 +24,14 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
+import org.springframework.util.StringUtils;
 import org.topbraid.spin.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -49,17 +57,20 @@ import java.util.concurrent.CompletableFuture;
  * The SPARQL keyword a is a shortcut for the common predicate rdf:type, giving the class of a resource.
  * Shortcut: a semicolon (;) can be used to separate two triple patterns that share the same subject. (?country is the shared subject above.)
  */
-public class Lesson13 {
+public class Lesson14 {
     public static void main(String[] args) {
         try {
             AMF.init().get();
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/complex_assets_hierarchy.sparql");
 
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
             URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
 
-            AMF.registerDialect(dialectResource.toExternalForm()).get();
+            Environment env = DefaultEnvironment.apply().add(new JarResourceLoader());
+
+            InputStream dialectInputStream = ClassLoader.getSystemResourceAsStream("dialect/tokenizer_single_dialect.raml");
+            Vocabularies.registerDialect(dialectResource.toExternalForm(), env).get();
 
             RamlParser parser = new RamlParser();
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
@@ -103,6 +114,46 @@ public class Lesson13 {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static class JarResourceLoader implements ResourceLoader {
+
+        @Override
+        public CompletableFuture<Content> fetch(String resource) {
+            try {
+                System.out.println("Fetching: " + resource);
+                URL jarUrl = new URL(resource);
+                JarURLConnection connection = (JarURLConnection) jarUrl.openConnection();
+                InputStream resourceInputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(StringUtils.cleanPath(connection.getEntryName()));
+                Content content = new Content(resource, IOUtils.toString(resourceInputStream, StandardCharsets.UTF_8));
+                return CompletableFuture.supplyAsync(() -> content);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return fail();
+        }
+
+        @Override
+        public boolean accepts(String resource) {
+            System.out.println("Accepts: " + resource);
+            boolean accepts = false;
+            try {
+
+                URL url = new URL(resource);
+                accepts = "jar".equals(url.getProtocol());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            return accepts;
+        }
+
+        private CompletableFuture<Content> fail() {
+            return CompletableFuture.supplyAsync(() -> {
+                throw new RuntimeException("Failed to apply.");
+            });
         }
     }
 }
