@@ -1,0 +1,4 @@
+PREFIX runtime: <http://mulesoft.com/vocabularies/mule#>
+
+SELECT ?x ?y
+WHERE { ?x  runtime:flow  ?y }

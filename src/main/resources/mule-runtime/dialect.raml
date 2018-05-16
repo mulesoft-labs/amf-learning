@@ -1,0 +1,89 @@
+#%RAML 1.0 Dialect
+
+# Name of the dialect, this will define the header of the dialect documents
+dialect: MuleRuntime
+version: 0.1
+
+uses:
+  mrt: vocabulary.raml
+
+external:
+  schema-org: http://schema.org/
+  http: http://mulesoft.com/vocabularies/mule/http#
+
+documents:
+  root:
+    encodes: ArtifactNode
+    declares:
+      globalHttpConfig: HttpRequestConfigNode
+
+nodeMappings:
+
+  # These could go to a library for the namespace
+
+  HttpRequestConfigNode:
+    classTerm: http.RequestConfig
+    mapping:
+      config:
+        propertyTerm: mrt.parameters
+        range:
+          - HttpConfigRefParamNode
+          - HttpUriParamsNode
+          - HttpQueryParamsNode
+          - HttpPathParamNode
+          - HttpMethodParamNode
+        typeDiscriminator:
+          Ref: HttpConfigRefParamNode
+          Uri: HttpUriParamsNode
+          Query: HttpQueryParamsNode
+          Path: HttpPathParamNode
+          Method: HttpMethodParamNode
+        typeDiscriminatorName: param
+        allowMultiple: true
+
+  HttpConfigRefParamNode:
+    classTerm: http.ConfigRef
+    mapping:
+      value:
+        propertyTerm: mrt.value
+        range: string
+        mandatory: true
+
+  HttpUriParamsNode:
+    classTerm: http.UriParams
+    mapping:
+      value:
+        propertyTerm: mrt.expression
+        range: string
+        mandatory: true
+
+  HttpQueryParamsNode:
+    classTerm: http.QueryParams
+    mapping:
+      value:
+        propertyTerm: mrt.expression
+        range: string
+        mandatory: true
+
+  HttpPathParamNode:
+    classTerm: http.Path
+    mapping:
+      value:
+        propertyTerm: mrt.value
+        range: string
+        mandatory: true
+
+  HttpMethodParamNode:
+    classTerm: http.Path
+    mapping:
+      value:
+        propertyTerm: mrt.value
+        range: string
+        mandatory: true
+
+  ArtifactNode:
+    classTerm: mrt.Application
+    mapping:
+      name:
+        propertyTerm: schema-org.name
+        range: string

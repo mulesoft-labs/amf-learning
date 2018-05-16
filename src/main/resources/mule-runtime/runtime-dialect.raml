@@ -1,0 +1,54 @@
+#%RAML 1.0 Dialect
+
+# Name of the dialect, this will define the header of the dialect documents
+dialect: MuleRuntime
+version: 0.1
+
+uses:
+  mrt: runtime-vocabulary.raml
+
+external:
+  schema-org: http://schema.org/
+
+documents:
+  root:
+    encodes: artifactNode
+
+nodeMappings:
+
+  artifactNode:
+    classTerm: mrt.Artifact
+    mapping:
+      flows:
+        propertyTerm: mrt.flow
+        range: flowNode
+        mandatory: true
+        mapKey: mrt.name
+
+  flowNode:
+    classTerm: mrt.Flow
+    mapping:
+      source:
+        propertyTerm: mrt.source
+        mandatory: true
+        range: sourceNode
+
+  identifierNode:
+    classTerm: mrt.Identifier
+    mapping:
+      name:
+        propertyTerm: mrt.identifierName
+        mandatory: true
+      namespace:
+        propertyTerm: mrt.identifierName
+        mandatory: true
+
+  sourceNode:
+    classTerm: mrt.Source
+    mapping:
+      identifier:
+        propertyTerm: mrt.identifier
+        mandatory: true
+        range: identifierNode
+
+

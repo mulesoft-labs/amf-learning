@@ -1,0 +1,302 @@
+#%RAML 1.0 Vocabulary
+
+vocabulary: MuleRuntime
+
+base: "http://mulesoft.com/vocabularies/mule#"
+usage: Description of Mule Runtime concepts
+
+
+classTerms:
+
+  # Top level concept in the document is the artifact, but here I'm
+  # using Application.
+  # I'm struggling to understand if we want to provide a 'deployment'
+  # view of the runtime or an execution 'view'
+  # My understanding is that the execution unit in the runtime is an
+  # 'application' that is deployed and bundled inside an 'artifact'.
+  # Not sure if we must describe the runtime from the runtime perspective,
+  # deployment perspective or both at the same time (with both concepts,
+  # Application and Artifact, in the vocabulary)
+  Artifact: # Artifact
+    displayName: Artifact
+    description: Execution unit in the runtime
+    properties:
+      - flow
+
+  ## Flows
+
+  Flow:
+    displayName: Flow
+    description: Data processing unit within an Application
+    properties:
+      - name
+      - source
+      - processors
+#      - errorHandler
+
+  Source:
+    displayName: Source
+    description: Is the one that act as a trigger for the processors within the Flow
+    properties:
+      - configuration
+      - parameters
+
+#  ScheduledDataSource:
+#    displayName: Scheduled Data Source
+#    description: Source that schedule it’s execution but also can be triggered manually
+#    extends: DataSource
+#
+  Processor:
+    displayName: Processor
+    description: Executes an action over the event being processed by a flow
+    properties:
+      - configuration
+
+  Configuration:
+      displayName: Configuration
+      description: Configuration
+
+  Parameter:
+    displayName: Parameter
+    description: Individual parameter in configuration
+    properties:
+      - identifier
+      - parameterValue
+
+  Identifier:
+    displayName: Identifier
+    description: Identifier
+    properties:
+      - identifierNamespace
+      - identifierName
+
+  ParameterValue:
+    displayName: ParameterValue
+    description: ParameterValue
+
+  SimpleParameterValue:
+    displayName: SimpleParameterValue
+    description: SimpleParameterValue
+    extends: ParameterValue
+    properties:
+      - value
+
+  ComplexParameterValue:
+    displayName: ComplexParameterValue
+    description: ComplexParameterValue
+    extends: ParameterValue
+    properties:
+      - parameters
+      - identifier
+
+#      - output
+#      - outputAttributes
+#
+#  SimpleProcessor: # OperationComponent
+#    displayName: Simple Processor
+#    description: |
+#      Simple processing operation in a flow transforming input parameters into
+#      an output data value
+#    extends: Processor
+#
+#  ComplexProcessor: # ConstructComponent
+#    displayName: Complex Processor
+#    description: Complex flow unit that can be composed of other processors
+#    extends: Processor
+#    properties:
+#      - routes
+#
+#  Route:
+#    displayName: Route
+#    description: Each of the possible processing paths in a Complex Processor
+#    properties:
+#      - configuration
+#      - processor
+#
+#  Message:
+#    displayName: Message
+#    description: Communication unit between processors
+#    properties:
+#      - payload
+#      - attributes
+#
+#  Handler:
+#    displayName: Handler
+#    description: Function handling the outcomes of flow executions
+#    properties:
+#      - configuration
+#      - input
+
+  ## Configuration
+
+#  Configuration:
+#    displayName: Configuration
+#    description: Settings for an element in the runtime
+#    properties:
+#      - parameters
+#
+#  ConnectionProviderConfiguration:
+#    displayName: Connection Provider
+#    description: Special type of configuration specifying connectivity parameters
+#    extends: Configuration
+#
+#  Parameter:
+#    displayName: Parameter
+#    description: Individual parameter in configuration
+#    properties:
+#      - value
+#      - expression
+
+
+  ## Shapes
+
+#  DynamicShape:
+#    displayName: Dynamic Shape
+#    description: Dynamic shape without information about the structure of the data
+#    extends: shapes.Shape
+
+
+  ## Specialisations for examples, this could be a separated file
+
+#  http.RequestConfig:
+#    extends: Configuration
+#
+#  http.ConfigRef:
+#    extends: Parameter
+#
+#  http.UriParams:
+#    extends: Parameter
+#
+#  http.QueryParams:
+#    displayName: HTTP Configuration ref
+#    extends: Parameter
+#
+#  http.Path:
+#    displayName: HTTP Configuration ref
+#    extends: Parameter
+#
+#  http.Method:
+#    displayName: HTTP Configuration ref
+#    extends: Parameter
+
+
+propertyTerms:
+
+  name:
+    displayName: Name
+    description: Unique identifier for the element
+    range: string
+
+  identifierNamespace:
+    displayName: Namespace
+    description: Namespace
+    range: string
+
+  identifierName:
+    displayName: Name
+    description: Name
+    range: string
+
+  identifier:
+    displayName: Identifier
+    description: Identifier
+    range: Identifier
+
+  source:
+    displayName: Source
+    description: A source of messages
+    range: Source
+
+  flow:
+    displayName: Flow
+    description: A flow
+    range: Flow
+
+  configuration:
+    displayName: Configuration
+    description: A reference to a module configuration related to the component
+    range: Configuration
+
+  processors:
+    displayName: Processors
+    description: Set of processors
+    range: Processor
+
+  parameters:
+    displayName: parameters
+    description: Set of parameters in a configuration
+    range: Parameter
+
+  parameterValue:
+    displayName: ParameterValue
+    description: ParameterValue
+    range: ParameterValue
+
+  value:
+    displayName: value
+    description: value provided for a parameter
+    range: string
+
+  simpleParameterValue:
+    displayName: simpleValue
+    description: simpleValue
+    range: SimpleParameterValue
+#
+#  expression:
+#    displayName: expression
+#    description: |
+#      value provided for a parameter as programmatic expression that must be evaluated
+#    extends: value
+#
+#
+#
+#  configuration:
+#    displayName: parameters
+#    description: Set of parameters for an Operation
+#    range: Configuration
+#
+#  typed:
+#    displayName: typed
+#    description: information about the shape of data
+#    range: shapes.Shape
+#
+#  output:
+#    displayName: output
+#    description: Expected output shape for a processing unit
+#    extends: typed
+#    range: Message
+#
+#  input:
+#    displayName: input
+#    description: Required input shape for a processing unit
+#    extends: typed
+#    range: Message
+#
+#  processor:
+#    displayName: processor
+#    description: Processor being connected by a route
+#    range: Processor
+#
+#  payload:
+#    displayName: payload
+#    description: shape of a message
+#    extends: typed
+#
+#  attributes:
+#    displayName: attributes
+#    description: contextual information for a payload
+#    range: Parameter
+#
+#  routes:
+#    displayName: routes
+#    description: routes within a complex processor
+#
+#  responseHandler:
+#    displayName: response
+#    description: Input parameters of the function that will generate the response
+#    range: Processor
+#
+#  errorResponseHandler:
+#    displayName: error response
+#    description: Handler for the erroneous execution of a flow
+#    extends: responseHandler

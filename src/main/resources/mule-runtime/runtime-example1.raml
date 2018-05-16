@@ -1,0 +1,21 @@
+#%MuleRuntime 0.1
+
+# Declaration of global configuration elements here
+flows:
+
+  # Temporary syntax, there are many ways of doing this
+  - myFlow:
+      source:
+        name: chau
+
+  - mySecondFlow:
+      source:
+        identifier:
+          name: listener
+          namespace: http
+
+
+# The description of the flow starts here, it can refer to the declared elements
+# like the accounts_http_config global configuration
+
+name: Test Application
