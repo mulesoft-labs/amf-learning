@@ -69,10 +69,9 @@ public class Lesson14 {
 
             Environment env = DefaultEnvironment.apply().add(new JarResourceLoader());
 
-            InputStream dialectInputStream = ClassLoader.getSystemResourceAsStream("dialect/tokenizer_single_dialect.raml");
             Vocabularies.registerDialect(dialectResource.toExternalForm(), env).get();
 
-            RamlParser parser = new RamlParser();
+            RamlParser parser = new RamlParser(env);
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
             BaseUnit document = parseFileAsync.get();
 
@@ -81,7 +80,8 @@ public class Lesson14 {
 
             Model model = JenaUtil.createMemoryModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
-            model.read(inputStream, document.location(), "JSON-LD");
+            String location = document.location();
+            model.read(inputStream, location, "JSON-LD");
 
             Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(model);
             InfModel infModel = ModelFactory.createInfModel(reasoner, model);
@@ -126,7 +126,7 @@ public class Lesson14 {
                 URL jarUrl = new URL(resource);
                 JarURLConnection connection = (JarURLConnection) jarUrl.openConnection();
                 InputStream resourceInputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(StringUtils.cleanPath(connection.getEntryName()));
-                Content content = new Content(resource, IOUtils.toString(resourceInputStream, StandardCharsets.UTF_8));
+                Content content = new Content(IOUtils.toString(resourceInputStream, StandardCharsets.UTF_8), resource);
                 return CompletableFuture.supplyAsync(() -> content);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
