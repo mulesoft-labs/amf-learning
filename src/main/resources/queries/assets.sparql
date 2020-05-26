@@ -1,4 +1,0 @@
-PREFIX anypoint: <http://mulesoft.com/vocabularies/anypoint#>
-
-SELECT ?x ?y
-WHERE { ?x  anypoint:asset_name  ?y }

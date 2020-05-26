@@ -1,0 +1,121 @@
+#%Vocabulary 1.0
+
+vocabulary: Anypoint Vocabulary
+
+usage: The common vocabulary to define Anypoint concepts
+
+base: http://mulesoft.com/vocabularies/anypoint#
+
+classTerms:
+
+  Configuration:
+    displayName: Configuration
+    description: Deployment configuration
+    properties:
+      - assets
+
+  Asset:
+    displayName: Asset
+    description: Reference to an asset
+
+  ExchangeAsset:
+    displayName: Exchange Asset
+    description: Reference to an Exchange asset
+    extends: Asset
+    properties:
+      - group
+      - artifact
+      - version
+      - classifier
+      - packaging
+      - exchangeType
+
+  CSMAsset:
+    displayName: CSM Asset
+    description: Reference to a CSM Asset
+    extends: Asset
+    properties:
+      - secretGroup
+      - secretType
+      - secretId
+      - version
+      - packaging
+      - environment
+      
+  GlobalCSMAsset:
+    displayName: Global CSM Asset
+    description: Reference to a Global CSM Asset
+    extends: Asset
+    properties:
+      - secretGroup
+      - secretType
+      - secretId
+      - clientId
+      - globalType
+      - version
+      - packaging
+      - propertyName
+
+propertyTerms:
+
+  assets:
+    displayName: Assets
+    range: Asset
+
+  asset_name:
+    displayName: Asset Name
+    range: string
+
+  group:
+    displayName: Group
+    range: string
+
+  artifact:
+    displayName: Artifact
+    range: string
+
+  version:
+    displayName: Version
+    range: string
+
+  classifier:
+    displayName: Classifier
+    range: string
+
+  packaging:
+    displayName: Packaging
+    range: string
+
+  exchangeType:
+    displayName: Exchange Type
+    range: string
+
+  secretGroup:
+    displayName: Secret Group
+    range: string
+
+  secretType:
+    displayName: Secret Type
+    range: string
+
+  secretId:
+    displayName: Secret Id
+    range: string
+    
+  clientId:
+    displayName: Client Id
+    range: string
+    
+  globalType:
+    displayName: Global Type
+    range: string
+    
+  environment:
+    displayName: Environment Id
+    range: string
+
+  propertyName:
+    displayName: Property Name
+    range: string
+    
+     

@@ -1,5 +1,0 @@
-PREFIX anypoint: <http://mulesoft.com/vocabularies/anypoint#>
-
-SELECT DISTINCT ?asset {
-  ?asset a anypoint:Asset
-} ORDER BY DESC(?asset)
