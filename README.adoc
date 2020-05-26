@@ -3,6 +3,7 @@
 === To build
 
 ```
+mvn package
 docker build -t validate .
 ```
 === To Run
