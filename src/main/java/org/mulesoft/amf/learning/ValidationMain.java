@@ -21,17 +21,17 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
  */
 public class ValidationMain {
 
+    private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/mule_application.dialect";
+
     public static void main(String[] args) {
         try {
-            Environment env = DefaultEnvironment.apply();
-
             AMF.init().get();
 
             ClassLoader classLoader = ValidationMain.class.getClassLoader();
-            File file = new File(classLoader.getResource("dialect/mule_application.dialect").getFile());
-            Vocabularies.registerDialect(file.toURI().toURL().toExternalForm(), env).get();
+            File file = new File(DIALECTS_PATH);
+            Vocabularies.registerDialect(file.toURI().toURL().toExternalForm()).get();
 
-            Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString(), env);
+            Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString());
             String document = "{\"$dialect\":\"MuleApplication 0.1\"}";
             String dialect = "MuleApplication 0.1";
             BaseUnit baseUnit = parser.parseStringAsync(document).get();
