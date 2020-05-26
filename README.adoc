@@ -1,3 +1,28 @@
-= AMF-Learning
+= AMF-Validate issue
 
-Small examples to learn about the different features provided by AMF
+=== To build
+
+```
+docker build -t validate .
+```
+=== To Run
+```
+docker run --cpus=".5" validate
+```
+== Expected Output
+
+```
+Running in FIPS mode
+Starting 1st parse
+Validate took 13995ms.
+Validate took 1000ms.
+Validate took 811ms.
+Validate took 784ms.
+Validate took 695ms.
+Validate took 905ms.
+Validate took 509ms.
+Validate took 591ms.
+Validate took 414ms.
+Validate took 491ms.
+
+```
