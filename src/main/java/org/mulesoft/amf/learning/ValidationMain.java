@@ -8,10 +8,15 @@ import amf.client.environment.DefaultEnvironment;
 import amf.client.environment.Environment;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
+import amf.client.validate.ValidationReport;
 import amf.plugins.document.Vocabularies;
 import com.google.common.base.Stopwatch;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -22,6 +27,7 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 public class ValidationMain {
 
     private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/mule_application.dialect";
+    private static final String INPUT = System.getProperty("user.dir") + "/input/mule_application.json";
 
     public static void main(String[] args) {
         try {
@@ -32,22 +38,16 @@ public class ValidationMain {
             Vocabularies.registerDialect(file.toURI().toURL().toExternalForm()).get();
 
             Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString());
-            String document = "{\"$dialect\":\"MuleApplication 0.1\"}";
+//            String document = "{\"$dialect\":\"MuleApplication 0.1\"}";
+//            String document = "{\"assets\":{\"application-binary\":{\"groupId\":\"com.mulesoft.example\",\"artifactId\":\"my-app\",\"version\":\"1.0.0\",\"classifier\":\"app\",\"packaging\":\"jar\",\"exchangeType\":\"app\"}},\"$dialect\":\"MuleApplication 0.1\"}";
+            String document = new String(Files.readAllBytes( Paths.get(INPUT)));
             String dialect = "MuleApplication 0.1";
             BaseUnit baseUnit = parser.parseStringAsync(document).get();
 
-            Stopwatch sw = Stopwatch.createStarted();
-            System.out.println("Starting 1st parse");
-            long start = 0;
-            long finish;
+            ValidationReport report = Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("JSON")).get();
+            System.out.println(report.conforms());
 
-            for (int i = 0; i < 10; i++) {
-                Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("RAML")).get();
 
-                finish = sw.elapsed(TimeUnit.MILLISECONDS);
-                System.out.println("Validate took " + (finish - start) + "ms.");
-                start = finish;
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

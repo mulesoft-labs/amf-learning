@@ -1,0 +1,67 @@
+{
+  "$dialect": "MuleApplication 0.1",
+  "environment": {
+    "jvm": {
+      "args": ""
+    },
+    "http": {
+      "inbound": {
+        "publicUrl": "il.mulesoft.com/mule-large-size"
+      }
+    },
+    "cpuMax": "900m",
+    "sidecars": {
+      "anypoint-monitoring": {
+        "image": "auto",
+        "resources": {
+          "cpu": {
+            "limit": "50m",
+            "reserved": "0m"
+          },
+          "memory": {
+            "limit": "50Mi",
+            "reserved": "50Mi"
+          }
+        }
+      }
+    },
+    "clustered": false,
+    "memoryMax": "6000Mi",
+    "publicUrl": "il.mulesoft.com/mule-large-size",
+    "resources": {
+      "cpu": {
+        "limit": "900m",
+        "reserved": "500m"
+      },
+      "memory": {
+        "limit": "6000Mi",
+        "reserved": "6000Mi"
+      }
+    },
+    "cpuReserved": "500m",
+    "memoryReserved": "6000Mi",
+    "runtimeVersion": "3.9.1:v1.3.6",
+    "updateStrategy": "recreate",
+    "lastMileSecurity": false,
+    "clusteringEnabled": false,
+    "replicationFactor": 1,
+    "disableAmLogForwarding": false,
+    "enforceDeployingReplicasAcrossNodes": false
+  },
+  "configuration": {
+    "mule.agent.application.properties.service": {
+      "properties": {},
+      "applicationName": "mule-large-size"
+    },
+    "assets": {
+      "mule-large-size": {
+        "groupId": "1ca69e55-3529-4cb4-b358-277f5ed1a708",
+        "version": "1.0.1",
+        "packaging": "zip",
+        "artifactId": "muleChoicev2a",
+        "classifier": "mule-application",
+        "exchangeType": "app"
+      }
+    }
+  }
+}

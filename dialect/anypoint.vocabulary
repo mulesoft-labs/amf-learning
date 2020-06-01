@@ -7,6 +7,8 @@ usage: The common vocabulary to define Anypoint concepts
 base: http://mulesoft.com/vocabularies/anypoint#
 
 classTerms:
+  Environment:
+  Spec:
 
   Configuration:
     displayName: Configuration
@@ -57,6 +59,10 @@ classTerms:
       - propertyName
 
 propertyTerms:
+
+  map:
+    displayName: Map
+    range: any
 
   assets:
     displayName: Assets
@@ -117,5 +123,13 @@ propertyTerms:
   propertyName:
     displayName: Property Name
     range: string
-    
+
+  environmentKey:
+    displayName: Property Name
+    range: string
+
+  environmentValue:
+    displayName: Property Name
+    range: string
+
      

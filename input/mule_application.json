@@ -1,0 +1,20 @@
+{
+  "$dialect": "MuleApplication 0.1",
+  "configuration": {
+    "assets": {
+      "mule-large-size": {
+        "groupId": "1ca69e55-3529-4cb4-b358-277f5ed1a708",
+        "version": "1.0.1",
+        "packaging": "zip",
+        "artifactId": "muleChoicev2a",
+        "classifier": "mule-application",
+        "exchangeType": "app"
+      }
+    }
+  },
+  "environment": {
+    "asdasd": "vaasfasflue1",
+    "aasdfasdasd": "rr",
+    "asdgdsgeasd": "vaasfabfbsdbsflue1"
+  }
+}

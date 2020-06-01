@@ -8,9 +8,36 @@ uses:
 
 documents:
   root:
-    encodes: ConfigurationNode
+    encodes: SpecNode
 
 nodeMappings:
+
+  SpecNode:
+    classTerm: anypoint.Spec
+    mapping:
+      environment:
+        mapKey: key
+        mapValue: value
+        mandatory: false
+        propertyTerm: anypoint.environment
+        range: EnvironmentNode
+        allowMultiple: true
+      configuration:
+        mandatory: true
+        range: ConfigurationNode
+        allowMultiple: true
+
+  EnvironmentNode:
+    classTerm: anypoint.Environment
+    mapping:
+      key:
+        propertyTerm: anypoint.environmentKey
+        range: string
+        mandatory: true
+      value:
+        propertyTerm: anypoint.environmentValue
+        range: any
+        mandatory: true
 
   ConfigurationNode:
     classTerm: anypoint.Configuration
