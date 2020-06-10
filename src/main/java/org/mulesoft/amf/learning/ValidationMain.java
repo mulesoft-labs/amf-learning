@@ -33,20 +33,19 @@ public class ValidationMain {
         try {
             AMF.init().get();
 
-            ClassLoader classLoader = ValidationMain.class.getClassLoader();
             File file = new File(DIALECTS_PATH);
             Vocabularies.registerDialect(file.toURI().toURL().toExternalForm()).get();
 
             Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString());
-//            String document = "{\"$dialect\":\"MuleApplication 0.1\"}";
-//            String document = "{\"assets\":{\"application-binary\":{\"groupId\":\"com.mulesoft.example\",\"artifactId\":\"my-app\",\"version\":\"1.0.0\",\"classifier\":\"app\",\"packaging\":\"jar\",\"exchangeType\":\"app\"}},\"$dialect\":\"MuleApplication 0.1\"}";
             String document = new String(Files.readAllBytes( Paths.get(INPUT)));
             String dialect = "MuleApplication 0.1";
             BaseUnit baseUnit = parser.parseStringAsync(document).get();
 
             ValidationReport report = Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("JSON")).get();
             System.out.println(report.conforms());
-
+            if(!report.conforms()) {
+                report.results().forEach(result -> System.out.println(result.message()));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,6 @@ documents:
 nodeMappings:
 
   SpecNode:
-    classTerm: anypoint.Spec
     mapping:
       environment:
         mapKey: key
@@ -36,7 +35,6 @@ nodeMappings:
         mandatory: true
       value:
         propertyTerm: anypoint.environmentValue
-        range: any
         mandatory: true
 
   ConfigurationNode:
@@ -56,7 +54,6 @@ nodeMappings:
         propertyTerm: anypoint.asset_name
         range: string
       groupId:
-        propertyTerm: anypoint.group
         range: string
         mandatory: true
       artifactId:

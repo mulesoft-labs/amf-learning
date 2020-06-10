@@ -132,4 +132,8 @@ propertyTerms:
     displayName: Property Name
     range: string
 
+  cosa:
+    displayName: Property Name
+    range: any
+
      

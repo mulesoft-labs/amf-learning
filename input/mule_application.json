@@ -13,8 +13,8 @@
     }
   },
   "environment": {
-    "asdasd": "vaasfasflue1",
-    "aasdfasdasd": "rr",
-    "asdgdsgeasd": "vaasfabfbsdbsflue1"
+    "key1": 7654,
+    "key2": "value2",
+    "key": true
   }
 }
