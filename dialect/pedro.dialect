@@ -1,0 +1,108 @@
+#%Dialect 1.0
+dialect: MuleApplication
+version: 0.5
+external:
+  conf: https://conf.org/
+  schema: https://schema.org/
+  core: http://a.ml/vocabularies/core#
+  data: http://a.ml/vocabularies/data#
+  shacl: http://www.w3.org/ns/shacl#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+documents:
+  root:
+    encodes: AppNode
+nodeMappings:
+    AppNode:
+      classTerm: conf.App
+      mapping:
+        configuration:
+          propertyTerm: conf.configuration
+          range: CatalogNode
+          mandatory: true
+        environment:
+          propertyTerm: conf.environment
+          range: DataNodeUnion
+
+    CatalogNode:
+      classTerm: conf.Catalog
+      mapping:
+        assets:
+          propertyTerm: conf.assets
+          range: AssetNode
+          allowMultiple: true
+          mapKey: name
+
+    AssetNode:
+      classTerm: conf.Configuration
+      mapping:
+        name:
+          propertyTerm: schema.name
+          range: string
+          mandatory: true
+        groupId:
+          propertyTerm: conf.groupId
+          range: string
+          mandatory: true
+        artifactId:
+          propertyTerm: conf.artifactId
+          range: string
+          mandatory: true
+        version:
+          propertyTerm: conf.version
+          range: string
+          mandatory: true
+        packaging:
+          propertyTerm: conf.packaging
+          range: string
+          mandatory: true
+        classifier:
+          propertyTerm: conf.classifier
+          range: string
+          mandatory: true
+        exchangeType:
+          propertyTerm: conf.exchangeType
+          range: string
+          mandatory: true
+
+    DataNodeUnion:
+      union:
+        - ScalarNode
+        - ArrayNode
+        - ObjectNode
+
+    ScalarNode:
+      classTerm: data.Scalar
+      mapping:
+        value:
+          propertyTerm: data.value
+          range: string
+        dataType:
+          propertyTerm: shacl.datatype
+          range: anyUri
+
+    ArrayNode:
+      classTerm: data.Array
+      mapping:
+        members:
+          propertyTerm: rdfs.member
+          range: DataNodeUnion
+          allowMultiple: true
+
+    ObjectNode:
+      classTerm: data.Object
+      mapping:
+        properties:
+          propertyTerm: data.properties
+          range: PropertyNode
+          allowMultiple: true
+          mapKey: name
+
+    PropertyNode:
+      classTerm: data.Property
+      mapping:
+        name:
+          propertyTerm: core.name
+          range: string
+        range:
+          propertyTerm: data.range
+          range: DataNodeUnion

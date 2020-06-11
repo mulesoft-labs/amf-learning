@@ -26,8 +26,8 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
  */
 public class ValidationMain {
 
-    private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/mule_application.dialect";
-    private static final String INPUT = System.getProperty("user.dir") + "/input/mule_application.json";
+    private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/pedro.dialect";
+    private static final String INPUT = System.getProperty("user.dir") + "/input/ejemplo.json";
 
     public static void main(String[] args) {
         try {
@@ -37,8 +37,8 @@ public class ValidationMain {
             Vocabularies.registerDialect(file.toURI().toURL().toExternalForm()).get();
 
             Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString());
-            String document = new String(Files.readAllBytes( Paths.get(INPUT)));
-            String dialect = "MuleApplication 0.1";
+            String document = new String(Files.readAllBytes(Paths.get(INPUT)));
+            String dialect = "MuleApplication 0.5";
             BaseUnit baseUnit = parser.parseStringAsync(document).get();
 
             ValidationReport report = Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("JSON")).get();
