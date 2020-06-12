@@ -19,12 +19,18 @@ nodeMappings:
         mapValue: value
         mandatory: false
         propertyTerm: anypoint.environment
-        range: EnvironmentNode
+        range: DataNodeUnion
         allowMultiple: true
       configuration:
         mandatory: true
         range: ConfigurationNode
         allowMultiple: true
+
+
+
+  DataNodeUnion:
+    union:
+      - EnvironmentNode
 
   EnvironmentNode:
     classTerm: anypoint.Environment

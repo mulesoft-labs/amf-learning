@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -26,6 +27,8 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
  */
 public class ValidationMain {
 
+//    private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/mule_application.dialect";
+//    private static final String INPUT = System.getProperty("user.dir") + "/input/mule_application.json";
     private static final String DIALECTS_PATH = System.getProperty("user.dir") + "/dialect/pedro.dialect";
     private static final String INPUT = System.getProperty("user.dir") + "/input/ejemplo.json";
 
@@ -38,10 +41,13 @@ public class ValidationMain {
 
             Aml10Parser parser = new Aml10Parser(APPLICATION_JSON.toString());
             String document = new String(Files.readAllBytes(Paths.get(INPUT)));
-            String dialect = "MuleApplication 0.5";
+            String dialect = "MuleApplication 0.1";
             BaseUnit baseUnit = parser.parseStringAsync(document).get();
 
-            ValidationReport report = Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("JSON")).get();
+            CompletableFuture<ValidationReport> future = Core.validate(baseUnit, ProfileName.apply(dialect), MessageStyle.apply("JSON"));
+
+            ValidationReport report = future.get();
+
             System.out.println(report.conforms());
             if(!report.conforms()) {
                 report.results().forEach(result -> System.out.println(result.message()));

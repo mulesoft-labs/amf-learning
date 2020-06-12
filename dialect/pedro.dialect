@@ -78,7 +78,7 @@ nodeMappings:
           range: string
         dataType:
           propertyTerm: shacl.datatype
-          range: anyUri
+          range: anyType
 
     ArrayNode:
       classTerm: data.Array
