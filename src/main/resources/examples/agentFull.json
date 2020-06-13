@@ -1,0 +1,41 @@
+{
+  "$dialect": "MuleApplication 0.1",
+  "transports": {
+    "rest.agent.transport": {
+      "enabled": true,
+      "port": 9999
+    },
+    "websocket.transport": {
+      "enabled": true,
+      "consoleUri": "wss://runtime-manager.stgx.anypoint.mulesoft.com:443/mule",
+      "handshake": {
+        "enabled": true,
+        "body": null
+      }
+    }
+  },
+  "globalConfiguration": {
+    "security": {
+      "keyStorePassword": "37c37244-e37a-4063-adc9-d8fbe95451a1",
+      "keyStoreAlias": "agent",
+      "keyStoreAliasPassword": "37c37244-e37a-4063-adc9-d8fbe95451a1"
+    },
+    "authenticationProxy": {
+      "endpoint": "https://data-authenticator.stgx.anypoint.mulesoft.com"
+    }
+  },
+  "services": {
+    "mule.agent.application.properties.service": {
+      "applicationPropertiesConfigurations": [
+        {
+          "applicationName": "Testing",
+          "properties": {
+            "UltraSecret": "987655",
+            "Secret": "123456"
+          }
+        }
+      ],
+      "enabled": true
+    },
+  }
+}

@@ -1,0 +1,73 @@
+#%Dialect 1.0
+
+dialect: Mule Application
+version: 0.1
+
+uses:
+  amc: ../vocabularies/amc.raml
+
+documents:
+  root:
+    encodes: ConfigurationNode
+
+nodeMappings:
+  ConfigurationNode:
+    mapping:
+      transports:
+        range: TransportNode
+        mandatory: true
+      globalConfiguration:
+        range: GlobalConfigurationNode
+
+  TransportNode:
+    mapping:
+      rest.agent.transport:
+        range: RESTTransportNode
+      websocket.transport:
+        range: WSTransportNode
+
+  RESTTransportNode:
+    mapping:
+      enabled:
+        range: boolean
+      port:
+        range: integer
+
+  WSTransportNode:
+    mapping:
+      enabled:
+        range: boolean
+      consoleUri:
+        range: string
+      handshake:
+        range: HandshakeNode
+
+  HandshakeNode:
+    mapping:
+      enabled:
+        range: boolean
+      body:
+        range: any
+
+  GlobalConfigurationNode:
+    mapping:
+      security:
+        range: SecurityNode
+      authenticationProxy:
+        range: AuthenticationProxyNode
+
+  SecurityNode:
+    mapping:
+      keyStorePassword:
+        propertyTerm: amc.PlainSecret
+        range: string
+      keyStoreAlias:
+        range: string
+      keyStoreAliasPassword:
+        range: string
+
+  AuthenticationProxyNode:
+    mapping:
+      endpoint:
+        propertyTerm: amc.PlainSecret
+        range: string
