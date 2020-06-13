@@ -26,19 +26,19 @@ public class Lesson02 {
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(systemResource.toExternalForm());
             BaseUnit document = parseFileAsync.get();
 
-            System.out.println("********************");
+            System.out.println("******* RAML 0.8 *******");
             CompletableFuture<String> ramlV1Future = new Raml08Renderer().generateString(document);
             System.out.println(ramlV1Future.get());
 
-            System.out.println("********************");
+            System.out.println("******* RAML 1.0 *******");
             CompletableFuture<String> ramlV2Future = new Raml10Renderer().generateString(document);
             System.out.println(ramlV2Future.get());
 
-            System.out.println("********************");
+            System.out.println("******* OAS *******");
             CompletableFuture<String> oasFuture = new Oas20Renderer().generateString(document);
             System.out.println(oasFuture.get());
 
-            System.out.println("********************");
+            System.out.println("******* Graph *******");
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             System.out.println(jsonLDFuture.get());
         } catch (Exception e) {

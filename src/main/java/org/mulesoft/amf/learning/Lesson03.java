@@ -23,6 +23,7 @@ public class Lesson03 {
 
             RamlParser parser = new RamlParser();
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(systemResource.toExternalForm());
+
             Document document = (Document) parseFileAsync.get();
 
             WebApi domainElement = (WebApi) document.encodes();
@@ -31,7 +32,7 @@ public class Lesson03 {
             domainElement.withDocumentationTitle("New Home");
             domainElement.withDocumentationUrl("http://example.com/mutator.raml");
 
-            System.out.println("********************");
+            System.out.println("******* RAML 1.0 *******");
             CompletableFuture<String> ramlV2Future = new Raml10Renderer().generateString(document);
             System.out.println(ramlV2Future.get());
         } catch (Exception e) {

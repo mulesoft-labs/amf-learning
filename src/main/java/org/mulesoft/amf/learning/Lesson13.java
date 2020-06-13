@@ -5,7 +5,6 @@ import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
 import amf.client.render.AmfGraphRenderer;
-import amf.plugins.document.Vocabularies;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -20,13 +19,12 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
-import org.topbraid.spin.util.JenaUtil;
+import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 /*

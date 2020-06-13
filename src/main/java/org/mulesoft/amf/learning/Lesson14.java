@@ -24,8 +24,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
-import org.springframework.util.StringUtils;
-import org.topbraid.spin.util.JenaUtil;
+import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -125,7 +124,7 @@ public class Lesson14 {
                 System.out.println("Fetching: " + resource);
                 URL jarUrl = new URL(resource);
                 JarURLConnection connection = (JarURLConnection) jarUrl.openConnection();
-                InputStream resourceInputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(StringUtils.cleanPath(connection.getEntryName()));
+                InputStream resourceInputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(connection.getEntryName());
                 Content content = new Content(IOUtils.toString(resourceInputStream, StandardCharsets.UTF_8), resource);
                 return CompletableFuture.supplyAsync(() -> content);
             } catch (MalformedURLException e) {
