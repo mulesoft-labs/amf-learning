@@ -40,6 +40,9 @@ public class MuleApplication {
             URL dialectResource = ClassLoader.getSystemResource("dialect/mule_application_dialect.raml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
+            URL nestedDialectResource = ClassLoader.getSystemResource("dialect/body.raml");
+            AMF.registerDialect(nestedDialectResource.toExternalForm()).get();
+
             System.out.println("Create Parser");
             Aml10Parser parser = new Aml10Parser("application/json");
 
