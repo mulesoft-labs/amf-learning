@@ -1,9 +1,14 @@
 package org.mulesoft.amf.amc;
 
+import amf.Core;
+import amf.MessageStyle;
+import amf.ProfileName;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
 import amf.client.render.AmfGraphRenderer;
+import amf.client.validate.ValidationReport;
+import amf.client.validate.ValidationResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -21,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -43,6 +49,17 @@ public class MuleApplication {
             System.out.println("Parse document");
             CompletableFuture<BaseUnit> future = parser.parseFileAsync(agentExample.toExternalForm());
             BaseUnit baseUnit = future.get();
+
+            System.out.println("Validation");
+            CompletableFuture<ValidationReport> validationReportFuture = Core.validate(future.get(), ProfileName.apply("Mule Application 0.1"), MessageStyle.apply("RAML"));
+            ValidationReport validationReport = validationReportFuture.get();
+
+            if (!validationReport.conforms()) {
+                List<ValidationResult> results = validationReport.results();
+                for (ValidationResult result : results) {
+                    System.out.println(result.message());
+                }
+            }
 
             System.out.println("Generate JSON-LD");
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(baseUnit);
