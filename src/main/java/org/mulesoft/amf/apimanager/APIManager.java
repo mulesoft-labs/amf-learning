@@ -91,6 +91,11 @@ public class APIManager {
             String jsonLD = futureConfigurationJsonLD.get();
             System.out.println(jsonLD);
 
+            System.out.println("Jena Memory Model");
+            Model inMemoryModel = JenaUtil.createMemoryModel();
+            InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
+            inMemoryModel.read(inputStream, instance.location(), "JSON-LD");
+
             System.out.println("Query Assets");
             InputStream assetsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/assets.sparql");
             String assetsQuery = IOUtils.toString(assetsQueryIS, Charset.defaultCharset());
