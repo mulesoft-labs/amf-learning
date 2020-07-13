@@ -1,0 +1,75 @@
+{
+  "type": "MuleApplication",
+  "name": "ProxyExample",
+  "scope": {
+    "organization": "8c51074d-63e4-492d-8b9b-fb9e8268a0da",
+    "environment": "68e8cadb-e7c8-4c28-a6f0-e90fc79b07d3"
+  },
+  "labels": {
+    "env": "Testing"
+  },
+  "target": {
+    "id": "ba1e0f64-2f08-49f0-88e9-8561ca1f4490",
+    "provider": "MC"
+  },
+  "spec": {
+    "target": {
+      "replicas": 2,
+      "desiredState": "STARTED",
+      "runtimeVersion": "3.9.4:v1.2.19",
+      "configuration": {
+        "assets": {
+          "application-binary": {
+            "groupId": "c698943d-d752-4758-ba6a-53734ecc6e83",
+            "artifactId": "proxy-example",
+            "version": "1.0.0",
+            "classifier": "mule-application",
+            "packaging": "zip",
+            "exchangeType": "app"
+          }
+        },
+        "mule.agent.application.properties.service": {
+          "properties": {
+            "property1": "value1",
+            "property2": "value2",
+            "property3": "value3"
+          },
+          "applicationName": "ProxyExample"
+        },
+        "fragments": {
+          "api": {
+            "apiId":94994,
+            "masterOrganizationId":"bbd37829-003c-4f20-8888-3181b24e3384",
+            "organizationId":"bbd37829-003c-4f20-8888-3181b24e3384",
+            "groupId":"bbd37829-003c-4f20-8888-3181b24e3384",
+            "assetId":"myapiv2",
+            "version":"1.0.0",
+            "productVersion":"v1",
+            "autodiscoveryInstanceName":"v1:94994",
+            "providerId":"960b506f-faa7-4a43-9616-790a8956b5b7",
+            "exchangeAssetName":"myApiV2",
+            "instanceLabel":null,
+            "environmentId":"43eade57-c764-4dae-b585-691191a68a96",
+            "legacyApiIdentifier":92104,
+            "endpointType":"http",
+            "endpointUri":"https://jsonplaceholder.typicode.com/todos/1",
+            "proxyUri":"http://0.0.0.0:8081/api",
+            "instanceName":"v1:94994",
+            "identityManagement": {
+              "clientId":"0oa627f9oFolTgLAQ356",
+              "clientSecret":"QW3Lavg8dbr-6_KwzwlEZsdITNik3CSbTPV-jvm7",
+              "tokenUrl":"https://mulesoftapi-gateway.okta.com/oauth2/v1/introspect"
+            },
+            "lastModification":1591882358196
+          }
+        }
+      },
+      "environment": {
+        "updateStrategy": "rolling",
+        "lastMileSecurity": false,
+        "disableAmLogForwarding": false,
+        "enforceDeployingReplicasAcrossNodes": false
+      }
+    }
+  }
+}

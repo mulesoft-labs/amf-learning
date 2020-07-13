@@ -1,0 +1,38 @@
+#%Dialect 1.0
+
+dialect: MuleApplication
+version: 0.1
+
+uses:
+  amc: amc.raml
+
+documents:
+  root:
+    encodes: ConfigurationNode
+
+nodeMappings:
+
+  ConfigurationNode:
+    mapping:
+      assets:
+        mapKey: name
+        range:
+          - ExchangeAssetNode
+
+  ExchangeAssetNode:
+    classTerm: amc.ExchangeAsset
+    mapping:
+      name:
+        range: string
+      groupId:
+        range: string
+      artifactId:
+        range: string
+      version:
+        range: string
+      classifier:
+        range: string
+      packaging:
+        range: string
+      exchangeType:
+        range: string
