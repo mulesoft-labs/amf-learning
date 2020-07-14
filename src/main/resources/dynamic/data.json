@@ -1,6 +1,5 @@
 {
   "dynamic": {
-    "$dialect": "dynamic.yaml#/declarations/RootNode",
     "a": 1,
     "b": 1
   }

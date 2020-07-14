@@ -43,6 +43,9 @@ public class Dynamic {
             URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.raml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
+            URL dynamicResource = ClassLoader.getSystemResource("dynamic/dynamic.raml");
+            AMF.registerDialect(dynamicResource.toExternalForm()).get();
+
             System.out.println("Create Parser");
             Aml10Parser parser = new Aml10Parser("application/json");
 
@@ -52,11 +55,22 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "Dynamic 0.1");
+
             System.out.println(jsonData.toString());
 
             CompletableFuture<BaseUnit> future = parser.parseStringAsync(jsonData.toString());
             BaseUnit baseUnit = future.get();
+
+            System.out.println("Validation");
+            CompletableFuture<ValidationReport> validationReportFuture = Core.validate(future.get(), ProfileName.apply("Mule Application 0.1"), MessageStyle.apply("RAML"));
+            ValidationReport validationReport = validationReportFuture.get();
+
+            List<ValidationResult> results = validationReport.results();
+
+            for (ValidationResult result: results) {
+                System.out.println(result.message());
+            }
 
             System.out.println("Generate JSON-LD");
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(baseUnit);
