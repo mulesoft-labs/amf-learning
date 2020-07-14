@@ -43,9 +43,6 @@ public class Dynamic {
             URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.raml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
-            URL dynamicResource = ClassLoader.getSystemResource("dynamic/dynamic.raml");
-            AMF.registerDialect(dynamicResource.toExternalForm()).get();
-
             System.out.println("Create Parser");
             Aml10Parser parser = new Aml10Parser("application/json");
 
@@ -55,7 +52,7 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "Dynamic 0.1");
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.raml#/declarations/DynamicNode");
 
             System.out.println(jsonData.toString());
 
