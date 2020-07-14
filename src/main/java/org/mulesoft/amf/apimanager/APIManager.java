@@ -60,9 +60,6 @@ public class APIManager {
             URL muleApplicationDialect = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.raml");
             AMF.registerDialect(muleApplicationDialect.toExternalForm()).get();
 
-            URL corsDialect = ClassLoader.getSystemResource("apimanager/generated/cors_dialect.raml");
-            AMF.registerDialect(corsDialect.toExternalForm()).get();
-
             System.out.println("Create Parsers");
             Aml10Parser amlYamlParser = new Aml10Parser();
             Aml10Parser amlJsonParser = new Aml10Parser("application/json");
