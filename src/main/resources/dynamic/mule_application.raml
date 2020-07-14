@@ -1,0 +1,17 @@
+#%Dialect 1.0
+
+dialect: MuleApplication
+version: 0.1
+
+external:
+  amc: amc.raml
+
+documents:
+  root:
+    encodes: RootNode
+
+nodeMappings:
+  RootNode:
+    mapping:
+      dynamic:
+        range: anyNode
