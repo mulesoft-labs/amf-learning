@@ -71,10 +71,14 @@ public class APIManager {
             ((ObjectNode) configurationNode).put("$dialect", "MuleApplication 0.1");
 
             System.out.println("Resolve Dynamic Nodes");
-            JsonNode policyNode = configurationNode.at("/fragments/policies/0");
-            ((ObjectNode) policyNode.get("configuration")).put("$dialect", policyNode.get("type").asText());
+            JsonNode policyNode0 = configurationNode.at("/fragments/policies/0");
+            ((ObjectNode) policyNode0.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode0.get("type") + ".raml#/declarations/RootNode");
 
-            System.out.println(configurationNode);
+//            JsonNode policyNode1 = configurationNode.at("/fragments/policies/1");
+//            ((ObjectNode) policyNode1.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode1.get("type") + ".raml#/declarations/RootNode");
+
+            System.out.println("Full Document");
+            System.out.println(configurationNode.toString());
 
             CompletableFuture<BaseUnit> future = amlJsonParser.parseStringAsync(configurationNode.toString());
             BaseUnit instance = future.get();

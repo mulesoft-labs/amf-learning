@@ -63,23 +63,25 @@
             "lastModification":1591882358196
           },
           "policies":[
+
             {
-              "type": "CORS 0.1",
-              "policyTemplateId":"522",
-              "order":8,
+              "type": "cors_dialect",
+              "policyTemplateId":"1192",
+              "order":null,
               "pointcutData":null,
-              "policyId":487237,
+              "policyId":706439,
               "configuration":{
-                "credentialsOriginHasHttpBasicAuthenticationHeader":"customExpression",
-                "clientIdExpression":"#[attributes.headers[&#39;client_id&#39;]]",
-                "clientSecretExpression":""
+                "publicResource":true,
+                "supportCredentials":false,
+                "originGroups":[
+                ]
               },
               "template":{
                 "groupId":"68ef9520-24e9-4cf2-b2f5-620025690913",
-                "assetId":"client-id-enforcement",
-                "assetVersion":"1.1.3"
+                "assetId":"cors",
+                "assetVersion":"1.1.4"
               },
-              "version":1591307339178
+              "version":1590084442943
             }
           ]
         }

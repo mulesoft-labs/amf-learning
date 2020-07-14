@@ -52,7 +52,7 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.raml#/declarations/DynamicNode");
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/cors_dialect.raml#/declarations/DynamicNode");
 
             System.out.println(jsonData.toString());
 
@@ -63,9 +63,9 @@ public class Dynamic {
             CompletableFuture<ValidationReport> validationReportFuture = Core.validate(future.get(), ProfileName.apply("Mule Application 0.1"), MessageStyle.apply("RAML"));
             ValidationReport validationReport = validationReportFuture.get();
 
-            List<ValidationResult> results = validationReport.results();
+            List<ValidationResult> validationResults = validationReport.results();
 
-            for (ValidationResult result: results) {
+            for (ValidationResult result: validationResults) {
                 System.out.println(result.message());
             }
 

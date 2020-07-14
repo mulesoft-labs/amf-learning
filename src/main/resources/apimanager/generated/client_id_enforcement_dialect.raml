@@ -2,7 +2,7 @@
 
 ### This is created by Exchange and POST to AMC Atlas
 
-dialect: CORS
+dialect: ClientIdEnforcement
 version: 0.1
 
 uses:
@@ -16,10 +16,9 @@ nodeMappings:
 
   RootNode:
     mapping:
-      publicResource:
-        range: boolean
-      supportCredentials:
-        range: boolean
-      originGroups:
+      credentialsOriginHasHttpBasicAuthenticationHeader:
         range: string
-        allowMultiple: true
+      clientIdExpression:
+        range: string
+      clientSecretExpression:
+        range: string
