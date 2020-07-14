@@ -1,0 +1,24 @@
+#%Dialect 1.0
+
+### This is created by Exchange and POST to AMC Atlas
+
+dialect: CORS
+version: 0.1
+
+uses:
+  amc: ../amc.raml
+
+documents:
+  root:
+    encodes: CORSNode
+
+nodeMappings:
+
+  CORSNode:
+    mapping:
+      credentialsOriginHasHttpBasicAuthenticationHeader:
+        range: string
+      clientIdExpression:
+        range: string
+      clientSecretExpression:
+        range: string

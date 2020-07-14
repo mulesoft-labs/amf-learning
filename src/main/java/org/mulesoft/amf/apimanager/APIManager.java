@@ -51,8 +51,11 @@ public class APIManager {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL dialectResource = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.raml");
-            AMF.registerDialect(dialectResource.toExternalForm()).get();
+            URL muleApplicationDialect = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.raml");
+            AMF.registerDialect(muleApplicationDialect.toExternalForm()).get();
+
+            URL corsDialect = ClassLoader.getSystemResource("apimanager/generated/cors_dialect.raml");
+            AMF.registerDialect(corsDialect.toExternalForm()).get();
 
             System.out.println("Create Parsers");
             Aml10Parser amlYamlParser = new Aml10Parser();
@@ -66,6 +69,13 @@ public class APIManager {
 
             System.out.println("Parse document");
             ((ObjectNode) configurationNode).put("$dialect", "MuleApplication 0.1");
+
+            System.out.println("Resolve Dynamic Nodes");
+            JsonNode policyNode = configurationNode.at("/fragments/policies/0");
+            ((ObjectNode) policyNode.get("configuration")).put("$dialect", policyNode.get("type").asText());
+
+            System.out.println(configurationNode);
+
             CompletableFuture<BaseUnit> future = amlJsonParser.parseStringAsync(configurationNode.toString());
             BaseUnit instance = future.get();
 
@@ -85,6 +95,18 @@ public class APIManager {
             Model inMemoryModel = JenaUtil.createMemoryModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             inMemoryModel.read(inputStream, instance.location(), "JSON-LD");
+
+//            System.out.println("Resolve Dynamic Nodes");
+//            InputStream dynamicQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/dynamic.sparql");
+//            String dynamicQuery = IOUtils.toString(dynamicQueryIS, Charset.defaultCharset());
+//            Query jenaDynamicQuery = QueryFactory.create(dynamicQuery);
+//
+//            try (QueryExecution execution = QueryExecutionFactory.create(jenaDynamicQuery, inferenceModel)) {
+//                ResultSet rs = execution.execSelect();
+//
+//                String results = ResultSetFormatter.asText(rs);
+//                System.out.println(results);
+//            }
 
             System.out.println("Query Assets");
             InputStream assetsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/assets.sparql");

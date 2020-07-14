@@ -1,5 +1,7 @@
 #%Dialect 1.0
 
+### This is created by AMC Atlas
+
 dialect: MuleApplication
 version: 0.1
 
@@ -51,6 +53,9 @@ nodeMappings:
     mapping:
       api:
         range: APINode
+      policies:
+        allowMultiple: true
+        range: PolicyNode
 
   APINode:
     mapping:
@@ -102,4 +107,31 @@ nodeMappings:
         propertyTerm: mule_application.clientSecret
         range: string
       tokenUrl:
+        range: string
+
+  PolicyNode:
+    classTerm: amc.DynamicContainer
+    mapping:
+      policyTemplateId:
+        range: string
+      order:
+        range: number
+      pointcutData:
+        range: string
+      policyId:
+        range: number
+      configuration:
+        range: anyNode
+      template:
+        range: TemplateNode
+      version:
+        range: number
+
+  TemplateNode:
+    mapping:
+      groupId:
+        range: string
+      assetId:
+        range: string
+      assetVersion:
         range: string

@@ -50,6 +50,9 @@ nodeMappings:
     mapping:
       api:
         range: APINode
+      policies:
+        allowMultiple: true
+        range: PolicyNode
 
   APINode:
     mapping:
@@ -101,4 +104,30 @@ nodeMappings:
         range: string
       tokenUrl:
         propertyTerm: amc.PlainSecret
+        range: string
+
+  PolicyNode:
+    mapping:
+      policyTemplateId:
+        range: string
+      order:
+        range: number
+      pointcutData:
+        range: string
+      policyId:
+        range: number
+      configuration:
+        range: anyNode
+      template:
+        range: TemplateNode
+      version:
+        range: number
+
+  TemplateNode:
+    mapping:
+      groupId:
+        range: string
+      assetId:
+        range: string
+      assetVersion:
         range: string

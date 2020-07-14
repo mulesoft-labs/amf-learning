@@ -1,6 +1,6 @@
 PREFIX amc: <http://mulesoft.com/vocabularies/amc#>
 
 SELECT ?asset WHERE {
-    ?asset a amc:Asset .
+    ?asset a amc:DynamicContainer .
 }
 LIMIT 100
