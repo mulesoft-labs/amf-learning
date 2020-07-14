@@ -51,7 +51,7 @@ public class APIManager {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL dialectResource = ClassLoader.getSystemResource("apimanager/mule_application.raml");
+            URL dialectResource = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.raml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
             System.out.println("Create Parsers");
@@ -59,7 +59,7 @@ public class APIManager {
             Aml10Parser amlJsonParser = new Aml10Parser("application/json");
 
             System.out.println("Parse Vocabulary (RDF Model)");
-            URL amcVocabularyResource = ClassLoader.getSystemResource("apimanager/amc.raml");
+            URL amcVocabularyResource = ClassLoader.getSystemResource("apimanager/generated/mule_application_vocabulary.raml");
             CompletableFuture<BaseUnit> amcVocabularyFuture = amlYamlParser.parseFileAsync(amcVocabularyResource.toExternalForm());
             BaseUnit amcVocabulary = amcVocabularyFuture.get();
             JenaRdfModel vocabularyRDF = (JenaRdfModel) amcVocabulary.toNativeRdfModel(new RenderOptions());
@@ -98,6 +98,19 @@ public class APIManager {
                 System.out.println(results);
             }
 
+            System.out.println("Parsing Properties *** MISSING ***");
+
+            System.out.println("Query Secrets");
+            InputStream secretsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/secrets.sparql");
+            String secretsQuery = IOUtils.toString(secretsQueryIS, Charset.defaultCharset());
+            Query jenaSecretsQuery = QueryFactory.create(secretsQuery);
+
+            try (QueryExecution execution = QueryExecutionFactory.create(jenaSecretsQuery, inferenceModel)) {
+                ResultSet rs = execution.execSelect();
+
+                String results = ResultSetFormatter.asText(rs);
+                System.out.println(results);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

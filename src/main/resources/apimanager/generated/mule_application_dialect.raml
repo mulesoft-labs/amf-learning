@@ -4,7 +4,8 @@ dialect: MuleApplication
 version: 0.1
 
 uses:
-  amc: amc.raml
+  amc: ../amc.raml
+  mule_application: mule_application_vocabulary.raml
 
 documents:
   root:
@@ -95,10 +96,10 @@ nodeMappings:
   IdentityManagementNode:
     mapping:
       clientId:
-        propertyTerm: amc.PlainSecret
+        propertyTerm: mule_application.clientId
         range: string
       clientSecret:
+        propertyTerm: mule_application.clientSecret
         range: string
       tokenUrl:
-        propertyTerm: amc.PlainSecret
         range: string
