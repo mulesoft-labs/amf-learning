@@ -1,8 +1,8 @@
 PREFIX amc: <http://mulesoft.com/vocabularies/amc#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?subject ?predicate ?asset WHERE {
-    ?asset rdfs:subClassOf+ amc:Asset .
-    ?subject a ?asset
+SELECT DISTINCT ?subject ?asset WHERE {
+    ?asset rdfs:subClassOf* amc:Asset .
+    ?subject a amc:Asset ;
 }
 LIMIT 100

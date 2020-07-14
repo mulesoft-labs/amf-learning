@@ -1,16 +1,10 @@
 package org.mulesoft.amf.apimanager;
 
-import amf.Core;
-import amf.MessageStyle;
-import amf.ProfileName;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
 import amf.client.render.AmfGraphRenderer;
 import amf.client.render.RenderOptions;
-import amf.client.validate.ValidationReport;
-import amf.client.validate.ValidationResult;
-import amf.core.rdf.RdfModel;
 import amf.plugins.features.validation.JenaRdfModel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +14,6 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.InfModel;
@@ -31,13 +24,10 @@ import org.apache.jena.riot.RDFFormat;
 import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class APIManager {
 
@@ -103,8 +93,8 @@ public class APIManager {
 
             try (QueryExecution execution = QueryExecutionFactory.create(jenaAssetsQuery, inferenceModel)) {
                 ResultSet rs = execution.execSelect();
-                String results = ResultSetFormatter.asText(rs);
 
+                String results = ResultSetFormatter.asText(rs);
                 System.out.println(results);
             }
 

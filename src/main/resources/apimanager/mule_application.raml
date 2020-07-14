@@ -18,6 +18,8 @@ nodeMappings:
         mapKey: name
         range:
           - ExchangeAssetNode
+      mule.agent.application.properties.service:
+        range: ApplicationPropertiesNode
 
   ExchangeAssetNode:
     classTerm: amc.ExchangeAsset
@@ -35,4 +37,21 @@ nodeMappings:
       packaging:
         range: string
       exchangeType:
+        range: string
+
+  ApplicationPropertiesNode:
+    mapping:
+      properties:
+        range: PropertyNode
+        asMap: true
+        mapKey: name
+        mapValue: value
+      applicationName:
+        range: string
+
+  PropertyNode:
+    mapping:
+      name:
+        range: string
+      value:
         range: string
