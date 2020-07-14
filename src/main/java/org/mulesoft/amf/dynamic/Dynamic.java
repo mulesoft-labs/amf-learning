@@ -52,7 +52,7 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/cors_dialect.raml#/declarations/DynamicNode");
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.raml#/declarations/RootNode");
 
             System.out.println(jsonData.toString());
 

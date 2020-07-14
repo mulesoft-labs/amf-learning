@@ -1,10 +1,15 @@
 package org.mulesoft.amf.apimanager;
 
+import amf.Core;
+import amf.MessageStyle;
+import amf.ProfileName;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
 import amf.client.render.AmfGraphRenderer;
 import amf.client.render.RenderOptions;
+import amf.client.validate.ValidationReport;
+import amf.client.validate.ValidationResult;
 import amf.plugins.features.validation.JenaRdfModel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +32,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class APIManager {
@@ -72,16 +78,26 @@ public class APIManager {
 
             System.out.println("Resolve Dynamic Nodes");
             JsonNode policyNode0 = configurationNode.at("/fragments/policies/0");
-            ((ObjectNode) policyNode0.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode0.get("type") + ".raml#/declarations/RootNode");
+            ((ObjectNode) policyNode0.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode0.get("type").textValue() + ".raml#/declarations/RootNode");
 
-//            JsonNode policyNode1 = configurationNode.at("/fragments/policies/1");
-//            ((ObjectNode) policyNode1.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode1.get("type") + ".raml#/declarations/RootNode");
+            JsonNode policyNode1 = configurationNode.at("/fragments/policies/1");
+            ((ObjectNode) policyNode1.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode1.get("type").textValue() + ".raml#/declarations/RootNode");
 
             System.out.println("Full Document");
             System.out.println(configurationNode.toString());
 
             CompletableFuture<BaseUnit> future = amlJsonParser.parseStringAsync(configurationNode.toString());
             BaseUnit instance = future.get();
+
+            System.out.println("Validations");
+            CompletableFuture<ValidationReport> validationReportFuture = Core.validate(instance, ProfileName.apply("Mule Application 0.1"), MessageStyle.apply("RAML"));
+            ValidationReport validationReport = validationReportFuture.get();
+
+            List<ValidationResult> validationResults = validationReport.results();
+
+            for (ValidationResult result: validationResults) {
+                System.out.println(result.message());
+            }
 
             System.out.println("Instance (RDF Model)");
             JenaRdfModel instanceRDF = (JenaRdfModel) instance.toNativeRdfModel(new RenderOptions());
