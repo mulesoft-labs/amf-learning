@@ -46,7 +46,18 @@ nodeMappings:
 
   ApplicationPropertiesNode:
     mapping:
+      properties:
+        range: PropertyNode
+        mapKey: name
+        mapValue: value
       applicationName:
+        range: string
+
+  PropertyNode:
+    mapping:
+      name:
+        range: string
+      value:
         range: string
 
   FragmentNode:

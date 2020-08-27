@@ -103,53 +103,53 @@ public class APIManager {
             InfModel inferenceModel = ModelFactory.createRDFSModel(vocabularyRDF.model(), instanceRDF.model());
             RDFDataMgr.write(System.out, inferenceModel, RDFFormat.JSONLD);
 
-            System.out.println("Configuration JSON-LD");
-            CompletableFuture<String> futureConfigurationJsonLD = new AmfGraphRenderer().generateString(instance);
-            String jsonLD = futureConfigurationJsonLD.get();
-            System.out.println(jsonLD);
-
-            System.out.println("Jena Memory Model");
-            Model inMemoryModel = JenaUtil.createMemoryModel();
-            InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
-            inMemoryModel.read(inputStream, instance.location(), "JSON-LD");
-
-//            System.out.println("Resolve Dynamic Nodes");
-//            InputStream dynamicQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/dynamic.sparql");
-//            String dynamicQuery = IOUtils.toString(dynamicQueryIS, Charset.defaultCharset());
-//            Query jenaDynamicQuery = QueryFactory.create(dynamicQuery);
+//            System.out.println("Configuration JSON-LD");
+//            CompletableFuture<String> futureConfigurationJsonLD = new AmfGraphRenderer().generateString(instance);
+//            String jsonLD = futureConfigurationJsonLD.get();
+//            System.out.println(jsonLD);
 //
-//            try (QueryExecution execution = QueryExecutionFactory.create(jenaDynamicQuery, inferenceModel)) {
+//            System.out.println("Jena Memory Model");
+//            Model inMemoryModel = JenaUtil.createMemoryModel();
+//            InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
+//            inMemoryModel.read(inputStream, instance.location(), "JSON-LD");
+//
+////            System.out.println("Resolve Dynamic Nodes");
+////            InputStream dynamicQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/dynamic.sparql");
+////            String dynamicQuery = IOUtils.toString(dynamicQueryIS, Charset.defaultCharset());
+////            Query jenaDynamicQuery = QueryFactory.create(dynamicQuery);
+////
+////            try (QueryExecution execution = QueryExecutionFactory.create(jenaDynamicQuery, inferenceModel)) {
+////                ResultSet rs = execution.execSelect();
+////
+////                String results = ResultSetFormatter.asText(rs);
+////                System.out.println(results);
+////            }
+//
+//            System.out.println("Query Assets");
+//            InputStream assetsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/assets.sparql");
+//            String assetsQuery = IOUtils.toString(assetsQueryIS, Charset.defaultCharset());
+//            Query jenaAssetsQuery = QueryFactory.create(assetsQuery);
+//
+//            try (QueryExecution execution = QueryExecutionFactory.create(jenaAssetsQuery, inferenceModel)) {
 //                ResultSet rs = execution.execSelect();
 //
 //                String results = ResultSetFormatter.asText(rs);
 //                System.out.println(results);
 //            }
-
-            System.out.println("Query Assets");
-            InputStream assetsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/assets.sparql");
-            String assetsQuery = IOUtils.toString(assetsQueryIS, Charset.defaultCharset());
-            Query jenaAssetsQuery = QueryFactory.create(assetsQuery);
-
-            try (QueryExecution execution = QueryExecutionFactory.create(jenaAssetsQuery, inferenceModel)) {
-                ResultSet rs = execution.execSelect();
-
-                String results = ResultSetFormatter.asText(rs);
-                System.out.println(results);
-            }
-
-            System.out.println("Parsing Properties *** MISSING ***");
-
-            System.out.println("Query Secrets");
-            InputStream secretsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/secrets.sparql");
-            String secretsQuery = IOUtils.toString(secretsQueryIS, Charset.defaultCharset());
-            Query jenaSecretsQuery = QueryFactory.create(secretsQuery);
-
-            try (QueryExecution execution = QueryExecutionFactory.create(jenaSecretsQuery, inferenceModel)) {
-                ResultSet rs = execution.execSelect();
-
-                String results = ResultSetFormatter.asText(rs);
-                System.out.println(results);
-            }
+//
+//            System.out.println("Parsing Properties *** MISSING ***");
+//
+//            System.out.println("Query Secrets");
+//            InputStream secretsQueryIS = ClassLoader.getSystemResourceAsStream("apimanager/secrets.sparql");
+//            String secretsQuery = IOUtils.toString(secretsQueryIS, Charset.defaultCharset());
+//            Query jenaSecretsQuery = QueryFactory.create(secretsQuery);
+//
+//            try (QueryExecution execution = QueryExecutionFactory.create(jenaSecretsQuery, inferenceModel)) {
+//                ResultSet rs = execution.execSelect();
+//
+//                String results = ResultSetFormatter.asText(rs);
+//                System.out.println(results);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
