@@ -13,6 +13,9 @@ documents:
   root:
     encodes: ConfigurationNode
 
+external:
+  tmp: http://tmp.com/
+
 nodeMappings:
 
   ConfigurationNode:
@@ -54,6 +57,7 @@ nodeMappings:
         range: string
 
   PropertyNode:
+    classTerm: tmp.PropertyNode
     mapping:
       name:
         range: string
