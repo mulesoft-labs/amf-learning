@@ -1,0 +1,4 @@
+PREFIX anypoint: <http://mulesoft.com/vocabularies/amf-learning#>
+
+SELECT ?x ?y ?z
+WHERE { ?x ?y ?z }
