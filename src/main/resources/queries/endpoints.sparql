@@ -1,4 +1,6 @@
-PREFIX core: <http://www.w3.org/ns/hydra/core#>
+PREFIX apiContract: <http://a.ml/vocabularies/apiContract#>
 
 SELECT ?x
-WHERE { ?x  core:method  "get" }
+WHERE {
+    ?x  apiContract:method  "get"
+}

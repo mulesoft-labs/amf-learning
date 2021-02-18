@@ -4,11 +4,11 @@ import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.model.document.Document;
 import amf.client.model.domain.WebApi;
-import amf.client.parse.RamlParser;
-import amf.client.render.Raml10Renderer;
+import amf.client.parse.*;
+import amf.client.render.*;
 
 import java.net.URL;
-import java.util.Arrays;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -19,22 +19,32 @@ public class Lesson03 {
         try {
             AMF.init().get();
 
-            URL systemResource = ClassLoader.getSystemResource("api/library.raml");
+            // List of triples with a parser, renderer and input URL for RAML, OAS and AsyncAPI
+            List<Object[]> inputCases = Arrays.asList(new Object[][] {
+              { new RamlParser(), new Raml10Renderer(), ClassLoader.getSystemResource("api/library.raml").toExternalForm() },
+              { new Oas30Parser(), new Oas30Renderer(), "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/3.1.0/examples/v3.0/api-with-examples.json" },
+              { new Async20Parser(), new Async20Renderer(), "https://raw.githubusercontent.com/asyncapi/asyncapi/2.0.0/examples/2.0.0/streetlights.yml" }
+            });
 
-            RamlParser parser = new RamlParser();
-            CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(systemResource.toExternalForm());
+            // For all input format cases, homogeneously add an Endpoint
+            for (Object[] inputCase : inputCases) {
+                Parser parser = (Parser) inputCase[0];
+                Renderer renderer = (Renderer) inputCase[1];
+                String inputUrl = (String) inputCase[2];
 
-            Document document = (Document) parseFileAsync.get();
+                CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(inputUrl);
 
-            WebApi domainElement = (WebApi) document.encodes();
+                Document document = (Document) parseFileAsync.get();
 
-            domainElement.withSchemes(Arrays.asList("HTTP"));
-            domainElement.withDocumentationTitle("New Home");
-            domainElement.withDocumentationUrl("http://example.com/mutator.raml");
+                WebApi domainElement = (WebApi) document.encodes();
 
-            System.out.println("******* RAML 1.0 *******");
-            CompletableFuture<String> ramlV2Future = new Raml10Renderer().generateString(document);
-            System.out.println(ramlV2Future.get());
+                domainElement.withEndPoint("newEndpoint")
+                  .withDescription("Example endpoint to demonstrate canonical model modifications");
+
+                System.out.println("***********************");
+                CompletableFuture<String> renderFuture = renderer.generateString(document);
+                System.out.println(renderFuture.get());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
