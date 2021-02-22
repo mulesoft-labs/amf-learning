@@ -4,6 +4,9 @@ import amf.client.*;
 import amf.client.model.document.*;
 import amf.client.parse.*;
 import amf.client.render.*;
+import amf.client.resolve.Async20Resolver;
+import amf.client.resolve.Raml10Resolver;
+import amf.client.resolve.Resolver;
 import org.apache.commons.io.*;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
@@ -25,8 +28,9 @@ public class Lesson05_01 {
 
             // List of tuples with a parser and an input URL for RAML and AsyncAPI
             List<Object[]> inputCases = Arrays.asList(new Object[][] {
-              { new RamlParser(), ClassLoader.getSystemResource("api/library.raml").toExternalForm() },
-              { new Async20Parser(), ClassLoader.getSystemResource("api/async.yaml").toExternalForm()  }
+              { new RamlParser(), new Raml10Resolver(), ClassLoader.getSystemResource("api/library.raml").toExternalForm() },
+              { new Async20Parser(), new Async20Resolver(), ClassLoader.getSystemResource("api/async.yaml").toExternalForm()  },
+              { new Async20Parser(), new Async20Resolver(), ClassLoader.getSystemResource("api/async-with-ref.yaml").toExternalForm()  }
             });
 
             InputStream sparqlInputStream = ClassLoader.getSystemResourceAsStream("queries/endpoints-with-contenttype.sparql");
@@ -35,9 +39,10 @@ public class Lesson05_01 {
             // For all input format cases, homogeneously find all endpoints that return JSON
             for (Object[] inputCase : inputCases) {
                 Parser parser   = (Parser) inputCase[0];
-                String inputUrl = (String) inputCase[1];
+                Resolver resolver   = (Resolver) inputCase[1];
+                String inputUrl = (String) inputCase[2];
 
-                CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(inputUrl);
+                CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(inputUrl).thenApply(resolver::resolve);
                 Document                    document       = (Document) parseFileAsync.get();
 
                 CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
