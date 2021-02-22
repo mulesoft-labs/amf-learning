@@ -26,7 +26,7 @@ public class Lesson05_01 {
         try {
             AMF.init().get();
 
-            // List of tuples with a parser and an input URL for RAML and AsyncAPI
+            // List of triples with a parser, a model resolver and an input URL for RAML and AsyncAPI
             List<Object[]> inputCases = Arrays.asList(new Object[][] {
               { new RamlParser(), new Raml10Resolver(), ClassLoader.getSystemResource("api/library.raml").toExternalForm() },
               { new Async20Parser(), new Async20Resolver(), ClassLoader.getSystemResource("api/async.yaml").toExternalForm()  },
@@ -42,8 +42,13 @@ public class Lesson05_01 {
                 Resolver resolver   = (Resolver) inputCase[1];
                 String inputUrl = (String) inputCase[2];
 
-                CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(inputUrl).thenApply(resolver::resolve);
-                Document                    document       = (Document) parseFileAsync.get();
+                CompletableFuture<BaseUnit> parsedModel = parser.parseFileAsync(inputUrl);
+
+                // apply a transformation over the parsed model that resolves references, suppresses declarations, expands
+                // type references/extensions, normalizes parameter types, deletes external references, etc.
+                // The relevant piece for the async examples is references resolution
+                CompletableFuture<BaseUnit> resolvedModel = parsedModel.thenApply(resolver::resolve);
+                Document                    document      = (Document) resolvedModel.get();
 
                 CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
                 String                    jsonLD       = jsonLDFuture.get();
