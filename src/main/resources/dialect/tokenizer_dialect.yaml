@@ -4,7 +4,7 @@ dialect: Tokenizer Deployment
 version: 0.1
 
 uses:
-  anypoint: ../vocabularies/anypoint.raml
+  anypoint: ../vocabularies/anypoint.yaml
 
 documents:
   root:

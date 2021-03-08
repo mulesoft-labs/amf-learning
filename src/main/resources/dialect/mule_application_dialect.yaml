@@ -4,7 +4,7 @@ dialect: Mule Application
 version: 0.1
 
 uses:
-  amc: ../vocabularies/amc.raml
+  amc: ../vocabularies/amc.yaml
 
 documents:
   root:

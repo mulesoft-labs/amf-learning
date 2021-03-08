@@ -17,8 +17,6 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
@@ -37,10 +35,10 @@ public class MuleApplication {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL dialectResource = ClassLoader.getSystemResource("dialect/mule_application_dialect.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/mule_application_dialect.yaml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
-            URL nestedDialectResource = ClassLoader.getSystemResource("dialect/body.raml");
+            URL nestedDialectResource = ClassLoader.getSystemResource("dialect/body.yaml");
             AMF.registerDialect(nestedDialectResource.toExternalForm()).get();
 
             System.out.println("Create Parser");

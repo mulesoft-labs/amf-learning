@@ -25,8 +25,8 @@ public class Lesson06 {
         try {
             AMF.init().get();
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/facebook.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.yaml");
+            URL dataResource = ClassLoader.getSystemResource("examples/facebook.yaml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 

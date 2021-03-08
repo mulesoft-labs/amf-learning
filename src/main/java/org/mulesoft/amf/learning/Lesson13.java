@@ -54,8 +54,8 @@ public class Lesson13 {
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/complex_assets_hierarchy.sparql");
 
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.yaml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.yaml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 

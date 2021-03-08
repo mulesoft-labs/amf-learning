@@ -5,7 +5,6 @@ import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
@@ -17,7 +16,7 @@ public class Lesson12 {
         try {
             AMF.init().get();
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.yaml");
             URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.json");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();

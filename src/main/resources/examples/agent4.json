@@ -11,7 +11,7 @@
       "handshake": {
         "enabled": true,
         "body": {
-          "$dialect": "../dialect/body.raml#/declarations/BodyNode",
+          "$dialect": "../dialect/body.yaml#/declarations/BodyNode",
           "a": 1,
           "b": 1,
           "c": 1,

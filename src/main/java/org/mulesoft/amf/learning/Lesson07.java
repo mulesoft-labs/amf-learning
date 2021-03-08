@@ -4,7 +4,6 @@ package org.mulesoft.amf.learning;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
-import amf.client.parse.RamlParser;
 import amf.client.render.AmfGraphRenderer;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
@@ -31,13 +30,13 @@ public class Lesson07 {
         try {
             AMF.init().get();
 
-            URL twitterDialectResource = ClassLoader.getSystemResource("dialect/twitter_dialect.raml");
-            URL facebookDialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.raml");
-            URL instagramDialectResource = ClassLoader.getSystemResource("dialect/instagram_dialect.raml");
+            URL twitterDialectResource = ClassLoader.getSystemResource("dialect/twitter_dialect.yaml");
+            URL facebookDialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.yaml");
+            URL instagramDialectResource = ClassLoader.getSystemResource("dialect/instagram_dialect.yaml");
 
-            URL twitterDataResource = ClassLoader.getSystemResource("examples/twitter.raml");
-            URL facebookDataResource = ClassLoader.getSystemResource("examples/facebook.raml");
-            URL instagramDataResource = ClassLoader.getSystemResource("examples/instagram.raml");
+            URL twitterDataResource = ClassLoader.getSystemResource("examples/twitter.yaml");
+            URL facebookDataResource = ClassLoader.getSystemResource("examples/facebook.yaml");
+            URL instagramDataResource = ClassLoader.getSystemResource("examples/instagram.yaml");
 
             AMF.registerDialect(twitterDialectResource.toExternalForm()).get();
             AMF.registerDialect(facebookDialectResource.toExternalForm()).get();

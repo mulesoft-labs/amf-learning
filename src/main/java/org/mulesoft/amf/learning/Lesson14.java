@@ -63,8 +63,8 @@ public class Lesson14 {
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/complex_assets_hierarchy.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.yaml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.yaml");
 
             Environment env = DefaultEnvironment.apply().add(new JarResourceLoader());
 

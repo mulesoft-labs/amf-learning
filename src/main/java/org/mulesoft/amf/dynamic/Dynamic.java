@@ -40,7 +40,7 @@ public class Dynamic {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.yaml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
             System.out.println("Create Parser");
@@ -52,7 +52,7 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.raml#/declarations/RootNode");
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.yaml#/declarations/RootNode");
 
             System.out.println(jsonData.toString());
 

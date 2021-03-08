@@ -6,8 +6,8 @@ dialect: MuleApplication
 version: 0.1
 
 uses:
-  amc: ../amc.raml
-  mule_application: mule_application_vocabulary.raml
+  amc: ../amc.yaml
+  mule_application: mule_application_vocabulary.yaml
 
 documents:
   root:
