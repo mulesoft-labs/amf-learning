@@ -13,7 +13,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
-import org.topbraid.jenax.util.JenaUtil;
+import org.apache.jena.rdf.model.ModelFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -56,7 +56,7 @@ public class Lesson07 {
             printJsonLD("Facebook", facebookDocument);
             printJsonLD("Instagram", instagramDocument);
 
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(twitterJsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, twitterDocument.location(), "JSON-LD");
 

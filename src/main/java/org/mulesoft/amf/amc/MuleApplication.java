@@ -7,17 +7,13 @@ import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
 import amf.client.render.AmfGraphRenderer;
+import amf.client.render.RenderOptions;
 import amf.client.validate.ValidationReport;
 import amf.client.validate.ValidationResult;
 import org.apache.commons.io.IOUtils;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
-import org.topbraid.jenax.util.JenaUtil;
+import org.apache.jena.rdf.model.ModelFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -63,13 +59,13 @@ public class MuleApplication {
             }
 
             System.out.println("Generate JSON-LD");
-            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(baseUnit);
+            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(baseUnit, new RenderOptions().withPrettyPrint());
             String jsonLD = jsonLDFuture.get();
 
             System.out.println(jsonLD);
 
             System.out.println("Create JENA Model");
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, baseUnit.location(), "JSON-LD");
 

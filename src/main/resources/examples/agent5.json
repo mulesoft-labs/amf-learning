@@ -1,0 +1,26 @@
+{
+  "$dialect": "Mule Application 0.1",
+  "transports": {
+    "rest.agent.transport": {
+      "enabled": true,
+      "port": 9999
+    },
+    "websocket.transport": {
+      "enabled": true,
+      "consoleUri": "wss://runtime-manager.stgx.anypoint.mulesoft.com:443/mule",
+      "handshake": {
+        "enabled": true
+      }
+    }
+  },
+  "globalConfiguration": {
+    "security": {
+      "keyStorePassword": "secret-password",
+      "keyStoreAlias": "agent",
+      "keyStoreAliasPassword": "drowssap-terces"
+    },
+    "authenticationProxy": {
+      "endpoint": "https://data-authenticator.stgx.anypoint.mulesoft.com"
+    }
+  }
+}

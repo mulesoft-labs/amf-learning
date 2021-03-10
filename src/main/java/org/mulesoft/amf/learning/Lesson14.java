@@ -24,7 +24,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
-import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -77,7 +76,7 @@ public class Lesson14 {
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             String jsonLD = jsonLDFuture.get();
 
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             String location = document.location();
             model.read(inputStream, location, "JSON-LD");

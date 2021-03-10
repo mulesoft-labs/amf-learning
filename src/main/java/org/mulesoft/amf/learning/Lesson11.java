@@ -3,8 +3,10 @@ package org.mulesoft.amf.learning;
 
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
+import amf.client.parse.Aml10Parser;
 import amf.client.parse.RamlParser;
 import amf.client.render.AmfGraphRenderer;
+import amf.client.render.RenderOptions;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -19,7 +21,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
-import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -39,19 +40,18 @@ public class Lesson11 {
 
             URL vocabularyResource = ClassLoader.getSystemResource("vocabularies/anypoint_hierarchy.yaml");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.yaml");
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.yaml");
+            URL dialect = ClassLoader.getSystemResource("dialect/tokenizer_hierarchy_dialect.yaml");
+            URL instance = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.yaml");
 
-            AMF.registerDialect(dialectResource.toExternalForm()).get();
+            AMF.registerDialect(dialect.toExternalForm()).get();
 
-            RamlParser parser = new RamlParser();
-            CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
-            BaseUnit document = parseFileAsync.get();
+            Aml10Parser parser = new Aml10Parser();
+            BaseUnit document = parser.parseFileAsync(instance.toExternalForm()).get();
 
-            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
+            CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document, new RenderOptions().withPrettyPrint());
             String jsonLD = jsonLDFuture.get();
 
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 
@@ -61,7 +61,7 @@ public class Lesson11 {
             CompletableFuture<String> vocabularyJsonLDFuture = new AmfGraphRenderer().generateString(vocabularyDocument);
             String vocabularyJsonLD = vocabularyJsonLDFuture.get();
 
-            Model vocabularyModel = JenaUtil.createMemoryModel();
+            Model vocabularyModel = ModelFactory.createDefaultModel();;
             InputStream vocabularyInputStream = new ByteArrayInputStream(vocabularyJsonLD.getBytes(Charset.defaultCharset()));
             vocabularyModel.read(vocabularyInputStream, document.location(), "JSON-LD");
 

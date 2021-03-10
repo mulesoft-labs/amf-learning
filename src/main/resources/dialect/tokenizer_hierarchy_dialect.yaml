@@ -1,4 +1,4 @@
-#%RAML 1.0 Dialect
+#%Dialect 1.0
 
 dialect: Tokenizer Deployment
 version: 0.1
@@ -17,7 +17,7 @@ nodeMappings:
     mapping:
       assets:
         propertyTerm: anypoint.assets
-        mapKey: anypoint.asset_name
+        mapKey: name
         typeDiscriminatorName: packaging
         typeDiscriminator:
           vdp: VDPAssetNode
