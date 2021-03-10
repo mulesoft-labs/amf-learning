@@ -18,6 +18,7 @@ import amf.core.plugin.PluginContext;
 import amf.plugins.features.validation.JenaRdfModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
@@ -31,6 +32,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static amf.core.model.document.BaseUnit.fromNativeRdfModel;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static scala.collection.JavaConverters.asScalaBuffer;
 
 public interface AmlOps extends IOOps {
@@ -81,19 +83,24 @@ public interface AmlOps extends IOOps {
         return new DialectInstance((amf.plugins.document.vocabularies.model.document.DialectInstance) unit);
     }
 
-    default CompletableFuture<Stream<QuerySolution>> querySelect(JenaRdfModel model, String sparql) {
+    default CompletableFuture<Stream<QuerySolution>> querySelect(JenaRdfModel model, String sparql, boolean inference) {
         final Query query = QueryFactory.create(sparql);
 
-        return parseAmlUnit(vocabulary()).thenApply(this::toNative).thenApply(v -> {
+        final CompletableFuture<Model> graph = inference ? createInferenceModel(model) : completedFuture(model.model());
 
-            final Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(v.model());
-            final InfModel m = ModelFactory.createInfModel(reasoner, model.model());
-
+        return graph.thenApply(m -> {
             try (QueryExecution execution = QueryExecutionFactory.create(query, m)) {
                 final ResultSet rs = execution.execSelect();
                 final Iterable<QuerySolution> iterable = () -> rs;
                 return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList()).stream();
             }
+        });
+    }
+
+    default CompletableFuture<Model> createInferenceModel(JenaRdfModel instance) {
+        return parseAmlUnit(vocabulary()).thenApply(this::toNative).thenApply(vocab -> {
+            final Reasoner reasoner = ReasonerRegistry.getOWLReasoner().bindSchema(vocab.model());
+            return ModelFactory.createInfModel(reasoner, instance.model());
         });
     }
 

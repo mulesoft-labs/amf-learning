@@ -13,7 +13,7 @@ public class ConfigurationJourney implements AmlOps {
     CompletableFuture<Stream<ConfSecret>> listSecrets(Instance instance) {
         return parseAmlUnit(instance).thenApply(this::toNative).thenCompose(model -> {
             final String query = readUTF8("queries/secrets.sparql");
-            return querySelect(model, query).thenApply(stream -> stream.map(ConfSecret::create));
+            return querySelect(model, query, true).thenApply(stream -> stream.map(ConfSecret::create));
         });
     }
 
