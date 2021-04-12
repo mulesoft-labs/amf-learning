@@ -1,23 +1,34 @@
 #%Dialect 1.0
 
 # Name of the dialect, this will define the header of the dialect documents
-dialect: Twitter Data
+dialect: Instagram Data
 version: 0.1
 
 # Vocabularies and externals can be referenced to use those terms in the dialect nodes
 uses:
-  learning: ../vocabularies/learning.raml
+  learning: ../vocabularies/learning.yaml
+
+external:
+  linked-data-platform: http://www.w3.org/ns/ldp#
 
 documents:
   root:
-    encodes: PersonNode
+    encodes: ContainerNode
 
 nodeMappings:
+
+  ContainerNode:
+    classTerm: linked-data-platform.BasicContainer
+    mapping:
+      container:
+        propertyTerm: linked-data-platform.contains
+        range: PersonNode
+        mandatory: true
 
   PersonNode:
     classTerm: learning.Person
     mapping:
-      data:
+      id:
         propertyTerm: learning.name
         range: string
         mandatory: true

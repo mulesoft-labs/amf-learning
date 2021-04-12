@@ -4,7 +4,10 @@ dialect: Mule Application
 version: 0.1
 
 uses:
-  amc: ../vocabularies/amc.raml
+  amc: ../vocabularies/amc.yaml
+
+external:
+  mule: http://mulesoft.com/vocabularies/mule#
 
 documents:
   root:
@@ -12,6 +15,7 @@ documents:
 
 nodeMappings:
   ConfigurationNode:
+    classTerm: mule.ConfigurationNode
     mapping:
       transports:
         range: TransportNode
@@ -20,6 +24,7 @@ nodeMappings:
         range: GlobalConfigurationNode
 
   TransportNode:
+    classTerm: mule.TransportNode
     mapping:
       rest.agent.transport:
         range: RESTTransportNode
@@ -27,6 +32,7 @@ nodeMappings:
         range: WSTransportNode
 
   RESTTransportNode:
+    classTerm: mule.RESTTransportNode
     mapping:
       enabled:
         range: boolean
@@ -34,6 +40,7 @@ nodeMappings:
         range: integer
 
   WSTransportNode:
+    classTerm: mule.WSTransportNode
     mapping:
       enabled:
         range: boolean
@@ -43,6 +50,7 @@ nodeMappings:
         range: HandshakeNode
 
   HandshakeNode:
+    classTerm: mule.HandshakeNode
     mapping:
       enabled:
         range: boolean
@@ -50,6 +58,7 @@ nodeMappings:
         range: anyNode
 
   GlobalConfigurationNode:
+    classTerm: mule.GlobalConfigurationNode
     mapping:
       security:
         range: SecurityNode
@@ -57,17 +66,19 @@ nodeMappings:
         range: AuthenticationProxyNode
 
   SecurityNode:
+    classTerm: mule.SecurityNode
     mapping:
       keyStorePassword:
-        propertyTerm: amc.PlainSecret
+        propertyTerm: amc.keyStorePassword
         range: string
       keyStoreAlias:
         range: string
       keyStoreAliasPassword:
+        propertyTerm: amc.keyStorePasswordAlias
         range: string
 
   AuthenticationProxyNode:
+    classTerm: mule.AuthenticationProxyNode
     mapping:
       endpoint:
-        propertyTerm: amc.PlainSecret
         range: string

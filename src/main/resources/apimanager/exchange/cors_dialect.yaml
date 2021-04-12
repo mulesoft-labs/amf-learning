@@ -6,7 +6,7 @@ dialect: CORS
 version: 0.1
 
 uses:
-  amc: ../amc.raml
+  amc: ../amc.yaml
 
 documents:
   root:

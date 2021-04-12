@@ -19,7 +19,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
-import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -37,8 +36,8 @@ public class Lesson10 {
 
             InputStream assetsInputStream = ClassLoader.getSystemResourceAsStream("queries/assets_hierarchy.sparql");
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/tokenizer_single_dialect.yaml");
+            URL dataResource = ClassLoader.getSystemResource("examples/tokenizer_hierarchy.yaml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
@@ -49,7 +48,7 @@ public class Lesson10 {
             CompletableFuture<String> jsonLDFuture = new AmfGraphRenderer().generateString(document);
             String jsonLD = jsonLDFuture.get();
 
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 

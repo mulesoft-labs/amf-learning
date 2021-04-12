@@ -1,10 +1,10 @@
-#%RAML 1.0 Dialect
+#%Dialect 1.0
 
 dialect: Tokenizer Deployment
 version: 0.1
 
 uses:
-  anypoint: ../vocabularies/anypoint.raml
+  anypoint: ../vocabularies/anypoint.yaml
 
 documents:
   root:

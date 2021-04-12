@@ -23,7 +23,7 @@ public class Lesson04 {
 
             URL systemResource = ClassLoader.getSystemResource("api/library.raml");
 
-            URL validationProfileResource = ClassLoader.getSystemResource("validations/validation_profile.raml");
+            URL validationProfileResource = ClassLoader.getSystemResource("validations/validation_profile.yaml");
 
             RamlParser parser = new RamlParser();
 

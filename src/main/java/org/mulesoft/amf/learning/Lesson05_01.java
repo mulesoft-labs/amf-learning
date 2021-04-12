@@ -10,7 +10,6 @@ import amf.client.resolve.Resolver;
 import org.apache.commons.io.*;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
-import org.topbraid.jenax.util.*;
 
 import java.io.*;
 import java.net.*;
@@ -54,7 +53,7 @@ public class Lesson05_01 {
                 String                    jsonLD       = jsonLDFuture.get();
 
                 // Create in memory model base in our document in JSON LD format
-                Model       model       = JenaUtil.createMemoryModel();
+                Model model = ModelFactory.createDefaultModel();
                 InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
                 model.read(inputStream, document.location(), "JSON-LD");
 

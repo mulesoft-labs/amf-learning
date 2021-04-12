@@ -12,24 +12,10 @@ import amf.client.validate.ValidationResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.io.IOUtils;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.rdf.model.Model;
-import org.topbraid.jenax.util.JenaUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class Dynamic {
 
@@ -40,7 +26,7 @@ public class Dynamic {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dynamic/mule_application.yaml");
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
             System.out.println("Create Parser");
@@ -52,7 +38,7 @@ public class Dynamic {
 
             System.out.println("Parse document");
             ((ObjectNode) jsonData).put("$dialect", "MuleApplication 0.1");
-            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.raml#/declarations/RootNode");
+            ((ObjectNode) jsonData.get("dynamic")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/dynamic/dynamic.yaml#/declarations/RootNode");
 
             System.out.println(jsonData.toString());
 

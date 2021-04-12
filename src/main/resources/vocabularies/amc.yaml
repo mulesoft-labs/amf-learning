@@ -1,0 +1,33 @@
+#%Vocabulary 1.0
+
+vocabulary: AMC
+
+usage: AMC concepts
+
+base: http://mulesoft.com/vocabularies/amc#
+
+propertyTerms:
+
+  secret:
+    displayName: Any secret
+    range: string
+
+  password:
+    extends: secret
+    displayName: Password
+    range: string
+
+  passwordAlias:
+    extends: secret
+    displayName: Password Alias
+    range: string
+
+  keyStorePassword:
+    extends: secret
+    displayName: Keystore password
+    range: string
+
+  keyStorePasswordAlias:
+    extends: secret
+    displayName: Keystore password alias
+    range: string

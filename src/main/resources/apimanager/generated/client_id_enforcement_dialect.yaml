@@ -1,12 +1,12 @@
 #%Dialect 1.0
 
-### This is created by Exchange and POST to AMC Atlas
+### This is created by AMC Atlas
 
 dialect: ClientIdEnforcement
 version: 0.1
 
 uses:
-  amc: ../amc.raml
+  client_id_enforcement: client_id_enforcement_vocabulary.yaml
 
 documents:
   root:
@@ -19,7 +19,7 @@ nodeMappings:
       credentialsOriginHasHttpBasicAuthenticationHeader:
         range: string
       clientIdExpression:
-        propertyTerm: amc.PlainSecret
+        propertyTerm: client_id_enforcement.clientIdExpression
         range: string
       clientSecretExpression:
         range: string

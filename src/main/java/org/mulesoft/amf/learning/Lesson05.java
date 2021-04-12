@@ -13,9 +13,9 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -43,7 +43,7 @@ public class Lesson05 {
             System.out.println(jsonLD);
 
             // Create in memory model base in our document in JSON LD format
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 

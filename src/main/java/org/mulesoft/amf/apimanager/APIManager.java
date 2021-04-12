@@ -6,7 +6,6 @@ import amf.ProfileName;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.parse.Aml10Parser;
-import amf.client.render.AmfGraphRenderer;
 import amf.client.render.RenderOptions;
 import amf.client.validate.ValidationReport;
 import amf.client.validate.ValidationResult;
@@ -14,24 +13,12 @@ import amf.plugins.features.validation.JenaRdfModel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.io.IOUtils;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.InfModel;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
-import org.topbraid.jenax.util.JenaUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -57,7 +44,7 @@ public class APIManager {
             AMF.init().get();
 
             System.out.println("Register Dialect");
-            URL muleApplicationDialect = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.raml");
+            URL muleApplicationDialect = ClassLoader.getSystemResource("apimanager/generated/mule_application_dialect.yaml");
             AMF.registerDialect(muleApplicationDialect.toExternalForm()).get();
 
             System.out.println("Create Parsers");
@@ -65,7 +52,7 @@ public class APIManager {
             Aml10Parser amlJsonParser = new Aml10Parser("application/json");
 
             System.out.println("Parse Vocabulary (RDF Model)");
-            URL amcVocabularyResource = ClassLoader.getSystemResource("apimanager/generated/mule_application_vocabulary.raml");
+            URL amcVocabularyResource = ClassLoader.getSystemResource("apimanager/generated/mule_application_vocabulary.yaml");
             CompletableFuture<BaseUnit> amcVocabularyFuture = amlYamlParser.parseFileAsync(amcVocabularyResource.toExternalForm());
             BaseUnit amcVocabulary = amcVocabularyFuture.get();
             JenaRdfModel vocabularyRDF = (JenaRdfModel) amcVocabulary.toNativeRdfModel(new RenderOptions());
@@ -75,10 +62,10 @@ public class APIManager {
 
             System.out.println("Resolve Dynamic Nodes");
             JsonNode policyNode0 = configurationNode.at("/fragments/policies/0");
-            ((ObjectNode) policyNode0.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode0.get("type").textValue() + ".raml#/declarations/RootNode");
+            ((ObjectNode) policyNode0.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode0.get("type").textValue() + ".yaml#/declarations/RootNode");
 
             JsonNode policyNode1 = configurationNode.at("/fragments/policies/1");
-            ((ObjectNode) policyNode1.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode1.get("type").textValue() + ".raml#/declarations/RootNode");
+            ((ObjectNode) policyNode1.get("configuration")).put("$dialect", "file:///Users/ldebello/repos/amf-learning/src/main/resources/apimanager/generated/" + policyNode1.get("type").textValue() + ".yaml#/declarations/RootNode");
 
             System.out.println("Full Document");
             System.out.println(configurationNode.toString());

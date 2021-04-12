@@ -1,10 +1,10 @@
-#%RAML 1.0 Dialect
+#%Dialect 1.0
 
 dialect: Tokenizer Deployment
 version: 0.1
 
 uses:
-  anypoint: ../vocabularies/anypoint.raml
+  anypoint: ../vocabularies/anypoint_hierarchy.yaml
 
 documents:
   root:
@@ -17,7 +17,7 @@ nodeMappings:
     mapping:
       assets:
         propertyTerm: anypoint.assets
-        mapKey: anypoint.asset_name
+        mapKey: name
         typeDiscriminatorName: packaging
         typeDiscriminator:
           vdp: VDPAssetNode
@@ -27,7 +27,7 @@ nodeMappings:
           - CSMAssetNode
 
   VDPAssetNode:
-    classTerm: anypoint.Asset
+    classTerm: anypoint.VDPAsset
     mapping:
       name:
         propertyTerm: anypoint.asset_name
@@ -49,7 +49,7 @@ nodeMappings:
         range: string
 
   CSMAssetNode:
-    classTerm: anypoint.Asset
+    classTerm: anypoint.CSMAsset
     mapping:
       name:
         propertyTerm: anypoint.asset_name

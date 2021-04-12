@@ -1,5 +1,5 @@
 {
-  "$dialect": "MuleApplication 0.1",
+  "$dialect": "Mule Application 0.1",
   "transports": {
     "rest.agent.transport": {
       "enabled": true,
@@ -9,29 +9,15 @@
       "enabled": true,
       "consoleUri": "wss://runtime-manager.stgx.anypoint.mulesoft.com:443/mule",
       "handshake": {
-        "enabled": true,
-        "body": {
-          "$dialect": "../dialect/body.yaml#/declarations/BodyNode",
-          "a": 1,
-          "b": 1,
-          "c": 1,
-          "z": {
-            "z": {
-
-            },
-            "y": {
-
-            }
-          }
-        }
+        "enabled": true
       }
     }
   },
   "globalConfiguration": {
     "security": {
-      "keyStorePassword": "37c37244-e37a-4063-adc9-d8fbe95451a1",
+      "keyStorePassword": "secret-password",
       "keyStoreAlias": "agent",
-      "keyStoreAliasPassword": "37c37244-e37a-4063-adc9-d8fbe95451a1"
+      "keyStoreAliasPassword": "drowssap-terces"
     },
     "authenticationProxy": {
       "endpoint": "https://data-authenticator.stgx.anypoint.mulesoft.com"

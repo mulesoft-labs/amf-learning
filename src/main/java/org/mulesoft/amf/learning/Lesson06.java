@@ -6,9 +6,9 @@ import amf.client.model.document.BaseUnit;
 import amf.client.parse.RamlParser;
 import amf.client.render.AmfGraphRenderer;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.topbraid.jenax.util.JenaUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -25,8 +25,8 @@ public class Lesson06 {
         try {
             AMF.init().get();
 
-            URL dialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.raml");
-            URL dataResource = ClassLoader.getSystemResource("examples/facebook.raml");
+            URL dialectResource = ClassLoader.getSystemResource("dialect/facebook_dialect.yaml");
+            URL dataResource = ClassLoader.getSystemResource("examples/facebook.yaml");
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
@@ -42,7 +42,7 @@ public class Lesson06 {
             System.out.println("********************");
             System.out.println(jsonLD);
 
-            Model model = JenaUtil.createMemoryModel();
+            Model model = ModelFactory.createDefaultModel();
             InputStream inputStream = new ByteArrayInputStream(jsonLD.getBytes(Charset.defaultCharset()));
             model.read(inputStream, document.location(), "JSON-LD");
 

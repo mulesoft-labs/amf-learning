@@ -1,12 +1,9 @@
-PREFIX apiContract: <http://a.ml/vocabularies/apiContract#>
+PREFIX api: <http://a.ml/vocabularies/apiContract#>
 PREFIX core: <http://a.ml/vocabularies/core#>
 
 SELECT ?path ?ep
 WHERE {
-    ?ep a apiContract:EndPoint ;
-        apiContract:path ?path ;
-        apiContract:supportedOperation ?op .
-    ?op apiContract:returns ?ret .
-    ?ret apiContract:payload ?payload .
-    ?payload core:mediaType "application/json" .
+    ?ep a api:EndPoint ;
+        api:path ?path ;
+        api:supportedOperation / api:returns / api:payload / core:mediaType "application/json"
 }

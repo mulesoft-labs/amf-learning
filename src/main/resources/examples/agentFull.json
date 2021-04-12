@@ -9,8 +9,7 @@
       "enabled": true,
       "consoleUri": "wss://runtime-manager.stgx.anypoint.mulesoft.com:443/mule",
       "handshake": {
-        "enabled": true,
-        "body": null
+        "enabled": true
       }
     }
   },
@@ -36,6 +35,6 @@
         }
       ],
       "enabled": true
-    },
+    }
   }
 }
