@@ -17,8 +17,8 @@ nodeMappings:
     mapping:
       assets:
         propertyTerm: anypoint.assets
-        mapKey: anypoint.asset_name
         range: AssetNode
+        mapKey: name
 
   AssetNode:
     classTerm: anypoint.Asset

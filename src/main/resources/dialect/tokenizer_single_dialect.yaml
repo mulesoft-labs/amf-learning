@@ -17,7 +17,7 @@ nodeMappings:
     mapping:
       assets:
         propertyTerm: anypoint.assets
-        mapKey: anypoint.asset_name
+        mapKey: name
         typeDiscriminatorName: packaging
         typeDiscriminator:
           vdp: VDPAssetNode
