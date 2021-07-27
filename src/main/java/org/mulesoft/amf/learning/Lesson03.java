@@ -3,7 +3,8 @@ package org.mulesoft.amf.learning;
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
 import amf.client.model.document.Document;
-import amf.client.model.domain.WebApi;
+import amf.client.model.domain.Api;
+import amf.client.model.domain.EndPoint;
 import amf.client.parse.*;
 import amf.client.render.*;
 
@@ -36,7 +37,7 @@ public class Lesson03 {
 
                 Document document = (Document) parseFileAsync.get();
 
-                WebApi domainElement = (WebApi) document.encodes();
+                Api<EndPoint> domainElement = (Api<EndPoint>) document.encodes();
 
                 domainElement.withEndPoint("newEndpoint")
                   .withDescription("Example endpoint to demonstrate canonical model modifications");
