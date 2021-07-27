@@ -3,7 +3,7 @@ package org.mulesoft.amf.learning;
 
 import amf.client.AMF;
 import amf.client.model.document.BaseUnit;
-import amf.client.parse.RamlParser;
+import amf.client.parse.Aml10Parser;
 import amf.client.render.AmfGraphRenderer;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -30,7 +30,7 @@ public class Lesson06 {
 
             AMF.registerDialect(dialectResource.toExternalForm()).get();
 
-            RamlParser parser = new RamlParser();
+            Aml10Parser parser = new Aml10Parser();
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
             BaseUnit document = parseFileAsync.get();
 
