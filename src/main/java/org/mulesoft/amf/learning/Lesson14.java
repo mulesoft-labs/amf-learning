@@ -5,7 +5,7 @@ import amf.client.AMF;
 import amf.client.environment.DefaultEnvironment;
 import amf.client.environment.Environment;
 import amf.client.model.document.BaseUnit;
-import amf.client.parse.RamlParser;
+import amf.client.parse.Aml10Parser;
 import amf.client.remote.Content;
 import amf.client.render.AmfGraphRenderer;
 import amf.client.resource.ResourceLoader;
@@ -69,7 +69,7 @@ public class Lesson14 {
 
             Vocabularies.registerDialect(dialectResource.toExternalForm(), env).get();
 
-            RamlParser parser = new RamlParser(env);
+            Aml10Parser parser = new Aml10Parser(env);
             CompletableFuture<BaseUnit> parseFileAsync = parser.parseFileAsync(dataResource.toExternalForm());
             BaseUnit document = parseFileAsync.get();
 
